@@ -5,9 +5,8 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.example.trabalho.clinicaveterinaria.animal.Animal;
+import com.example.trabalho.clinicaveterinaria.agendamento.Agendamento;
 import com.example.trabalho.clinicaveterinaria.common.enums.Status;
-import com.example.trabalho.clinicaveterinaria.usuario.Usuario;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +17,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -56,13 +55,9 @@ public class Consulta implements Serializable {
     @ToString.Include
     private String tratamento;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "animal_id")
-    private Animal animal;
-
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "usuario_id")
-    private Usuario veterinario;
+    @OneToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "agendamento_id")
+    private Agendamento agendamento;
 
     @Enumerated (EnumType.STRING)
     @ToString.Include

@@ -4,19 +4,15 @@ import java.io.Serializable;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.example.trabalho.clinicaveterinaria.animal.Animal;
 import com.example.trabalho.clinicaveterinaria.common.enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -53,10 +49,6 @@ public class Prontuario implements Serializable {
 
     @ToString.Include
     private String observacoes;
-
-    @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "animal_id")
-    private Animal animal;
 
     @Enumerated (EnumType.STRING)
     @ToString.Include

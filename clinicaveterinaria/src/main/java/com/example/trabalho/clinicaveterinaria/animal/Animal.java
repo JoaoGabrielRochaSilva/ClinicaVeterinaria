@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.example.trabalho.clinicaveterinaria.common.enums.Status;
+import com.example.trabalho.clinicaveterinaria.prontuario.Prontuario;
 import com.example.trabalho.clinicaveterinaria.usuario.Usuario;
 
 import jakarta.persistence.Column;
@@ -18,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -64,6 +66,10 @@ public class Animal implements Serializable {
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario dono;
+
+    @OneToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "prontuario_id")
+    private Prontuario prontuario;
 
     @Enumerated (EnumType.STRING)
     @ToString.Include
