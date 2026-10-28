@@ -1,0 +1,2 @@
+https://www.jsdelivr.com/package/npm/alpinejs
+https://github.com/alpinejs/alpine

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Clínica Veterinária</title>
+  <link rel="shortcut icon" th:href="@{/images/logo.png}" />
+  <!-- Estilo Principal do Template -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+  <!-- Tema visual da clínica veterinária (carregar depois do style.css) -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/vet-theme.css}" />
+  <!-- Estilo do MDDateTimePicker -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/vendors/mddatetimepicker/mdDateTimePicker.min.css}" />
+  <!-- Estilo do MCDatepicker -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/vendors/mcdatepicker/mc-calendar.min.css}" />
+  <!-- Estilo do SweetAlert2 -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/vendors/sweetalert2/sweetalert2.min.css}" />
+
+  <!-- Biblioteca Alpine.js usada no Menu -->
+  <script defer th:src="@{/js/vendors/alpinejs/cdn.min.js}"></script>
+  <!-- Script para controle do Menu -->
+  <script th:src="@{/js/scriptmenus.js}" defer></script>
+  <!-- Biblioteca htmx -->
+  <script defer th:src="@{/js/vendors/htmx/htmx.min.js}"></script>
+  <meta name="htmx-config" content='{"defaultSwap":"outerHTML"}'>
+  <!-- Biblioteca SimpleMaskMoney -->
+  <script th:src="@{/js/vendors/maskmoney/simple-mask-money.umd.min.js}" defer></script>
+  <!-- Biblioteca MCDatepicker -->
+  <script th:src="@{/js/vendors/mcdatepicker/mc-calendar.min.js}" defer></script>
+  <!-- Biblioteca MDDateTimePicker -->
+  <script th:src="@{/js/vendors/mddatetimepicker/draggabilly.pkgd.min.js}" defer></script>
+  <script th:src="@{/js/vendors/mddatetimepicker/moment.min.js}" defer></script>
+  <script th:src="@{/js/vendors/mddatetimepicker/mdDateTimePicker.js}" defer></script>
+  <!-- Biblioteca SweetAlert2 -->
+  <script th:src="@{/js/vendors/sweetalert2/sweetalert2.all.min.js}" defer></script>
+
+  <!-- Aplicação Principal (Global) -->
+  <script th:src="@{/js/app.js}" defer></script>
+  <!-- Isso está aqui apenas para o 1o acesso depois de logar -->
+  <!-- <meta name="_csrf" th:content="${_csrf?.token}" /> -->
+  <!-- <meta name="_csrf_header" th:content="${_csrf?.headerName}" /> -->
+</head>
+
+<body hx-target:inherited="#main" 
+      hx-status:inherited:4xx="target:#main" 
+      hx-status:inherited:5xx="target:#main">
+  <!-- Container da página -->
+  <div class="container flex h-screen min-w-full flex-col">
+    <!-- Navbar da pagina TOPO -->
+    <div th:replace="~{layout/fragments/header :: header}"></div>
+
+    <!-- Meio -->
+    <section class="flex flex-1">
+      <!-- Menu lateral ESQUERDA -->
+      <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
+
+      <!-- Conteudo Principal da pagina -->
+      <th:block layout:fragment="conteudo"></th:block>
+    </section>
+
+    <!-- Rodape da pagina BAIXO -->
+    <div th:replace="~{layout/fragments/rodape :: rodape}"></div>
+  </div>
+
+  <!-- Bloco para JavaScript adicional que a página pode precisar -->
+  <th:block layout:fragment="scripts"></th:block>
+</body>
+
+</html>

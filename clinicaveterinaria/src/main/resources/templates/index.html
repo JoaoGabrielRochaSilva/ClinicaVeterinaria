@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org" layout:decorate="~{layout/layoutpadrao}" >
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <title>Página Principal</title>
+</head>
+
+<body>
+  <!-- conteudo principal -->
+  <main layout:fragment="conteudo" th:fragment="conteudo" id="main" class="flex flex-col align-middle justify-center w-full m-10">
+    <div class="vet-hero">
+      <h1 class="text-2xl md:text-4xl text-center">Bem-vindo ao sistema da Clínica Veterinária</h1>
+      <img th:src="@{/images/hero-clinica.svg}" alt="Veterinária com um gato no colo e um cachorro sentado ao lado" />
+    </div>
+  </main>
+  <!-- !conteudo principal -->
+
+  <!-- Nao usamos
+	<th:block layout:fragment="scripts">
+		<script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
+	</th:block> -->
+</body>
+
+</html>

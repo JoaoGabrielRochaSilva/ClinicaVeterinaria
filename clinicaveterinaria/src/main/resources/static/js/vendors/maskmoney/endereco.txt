@@ -1,0 +1,2 @@
+https://www.jsdelivr.com/package/npm/simple-mask-money?tab=files
+https://www.npmjs.com/package/simple-mask-money

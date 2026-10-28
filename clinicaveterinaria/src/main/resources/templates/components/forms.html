@@ -1,0 +1,680 @@
+<th:block th:fragment="campoEstatico" xmlns:th="http://www.thymeleaf.org">
+  
+  <label th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+  
+  <div class="relative">
+    <div th:text="${textoExibicao}"
+         class="block w-full px-4 py-3 text-gray-500 bg-gray-100 border border-gray-300 rounded-lg cursor-not-allowed overflow-hidden whitespace-nowrap">
+    </div>
+  </div>
+
+</th:block>
+
+<th:block th:fragment="inputTexto"
+  th:with="
+    disabledFlag=${isDisabled != null and isDisabled},
+    validFlag=${isValidado != null and isValidado}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+
+  <th:block th:if="${validFlag}">
+    <div class="relative" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <input type="text" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" autocomplete="off"
+             th:class="|block w-full px-4 py-3 text-gray-500 disabled:opacity-50 rounded-lg border ${temErro ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500'}|" />
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="*{__${nomeAtributo}__}" />
+
+      <div th:if="${temErro}" class="end-0 absolute items-center inset-y-0 flex pointer-events-none justify-center pe-3">
+        <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
+    </div>
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="relative">
+      <input type="text" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valorAtributo}" th:disabled="${disabledFlag}" autocomplete="off"
+             class="block w-full px-4 py-3 text-gray-500 disabled:opacity-50 border border-gray-300 rounded-lg focus:border-gray-500 focus:ring-gray-500" />
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="${valorAtributo}" />
+    </div>
+  </th:block>
+</th:block>
+
+<th:block th:fragment="inputSenha"
+  th:with="
+    disabledFlag=${isDisabled != null and isDisabled},
+    validFlag=${isValidado != null and isValidado}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+
+  <th:block th:if="${validFlag}">
+    <div class="relative" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <input type="password" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" autocomplete="off"
+             th:class="|block w-full px-4 py-3 pr-12 text-gray-500 disabled:opacity-50 rounded-lg border ${temErro ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500'}|" />
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="*{__${nomeAtributo}__}" />
+
+      <button type="button" th:disabled="${disabledFlag}"
+        class="toggle-senha absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 disabled:opacity-50 focus:outline-none">
+        
+        <svg class="icone-olho-fechado h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" stroke-width="0.4" viewBox="0 0 16 16">
+          <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"/>
+          <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/>
+          <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z"/>
+        </svg>
+
+        <svg class="icone-olho-aberto hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" stroke-width="0.4" viewBox="0 0 16 16">
+          <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+          <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+        </svg>
+      </button>
+
+      <div th:if="${temErro}" class="end-0 absolute items-center inset-y-0 flex pointer-events-none justify-center pe-12">
+        <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
+    </div>
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="relative">
+      <input type="password" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valorAtributo}" th:disabled="${disabledFlag}" autocomplete="off"
+             class="block w-full px-4 py-3 pr-12 text-gray-500 disabled:opacity-50 border border-gray-300 rounded-lg focus:border-gray-500 focus:ring-gray-500" />
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="${valorAtributo}" />
+      
+      <button type="button" th:disabled="${disabledFlag}"
+        class="toggle-senha absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 disabled:opacity-50 focus:outline-none">
+        
+        <svg class="icone-olho-fechado h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" stroke-width="0.4" viewBox="0 0 16 16">
+          <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"/>
+          <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/>
+          <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z"/>
+        </svg>
+
+        <svg class="icone-olho-aberto hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" stroke-width="0.4" viewBox="0 0 16 16">
+          <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+          <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+        </svg>
+      </button>
+    </div>
+  </th:block>
+</th:block>
+
+<th:block th:fragment="inputEmail"
+  th:with="
+    disabledFlag=${isDisabled != null and isDisabled},
+    validFlag=${isValidado != null and isValidado}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+
+  <th:block th:if="${validFlag}">
+    <div class="relative" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <input type="email" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" autocomplete="off"
+             th:class="|block w-full px-4 py-3 pr-12 text-gray-500 disabled:opacity-50 rounded-lg border ${temErro ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500'}|" />
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="*{__${nomeAtributo}__}" />
+
+      <div class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 pointer-events-none">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" stroke-width="0.4" viewBox="0 0 16 16">
+          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+        </svg>
+      </div>
+
+      <div th:if="${temErro}" class="end-0 absolute items-center inset-y-0 flex pointer-events-none justify-center pe-12">
+        <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
+    </div>
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="relative">
+      <input type="email" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valorAtributo}" th:disabled="${disabledFlag}" autocomplete="off"
+             class="block w-full px-4 py-3 pr-12 text-gray-500 disabled:opacity-50 border border-gray-300 rounded-lg focus:border-gray-500 focus:ring-gray-500" />
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="${valorAtributo}" />
+      
+      <div class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 pointer-events-none">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="currentColor" stroke-width="0.4" viewBox="0 0 16 16">
+          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+        </svg>
+      </div>
+    </div>
+  </th:block>
+</th:block>
+
+<th:block th:fragment="inputCpf"
+  th:with="
+    disabledFlag=${isDisabled != null and isDisabled},
+    validFlag=${isValidado != null and isValidado}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+
+  <th:block th:if="${validFlag}">
+    <div class="relative" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <input type="text" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" autocomplete="off" placeholder="000.000.000-00" maxlength="14"
+             th:class="|componentecpf block w-full px-4 py-3 text-gray-500 disabled:opacity-50 rounded-lg border ${temErro ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500'}|" />
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="*{__${nomeAtributo}__}" />
+
+      <div th:if="${temErro}" class="end-0 absolute items-center inset-y-0 flex pointer-events-none justify-center pe-3">
+        <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
+    </div>
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="relative">
+      <input type="text" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valorAtributo}" th:disabled="${disabledFlag}" autocomplete="off" placeholder="000.000.000-00" maxlength="14"
+             class="componentecpf block w-full px-4 py-3 text-gray-500 disabled:opacity-50 border border-gray-300 rounded-lg focus:border-gray-500 focus:ring-gray-500" />
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="${valorAtributo}" />
+    </div>
+  </th:block>
+</th:block>
+
+<th:block th:fragment="inputDinheiro"
+  th:with="
+    disabledFlag=${isDisabled != null and isDisabled},
+    validFlag=${isValidado != null and isValidado}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+
+  <th:block th:if="${validFlag}">
+    <div class="relative" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <input type="text" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" autocomplete="off"
+             th:class="|componentemoney block w-full px-4 py-3 text-gray-500 disabled:opacity-50 rounded-lg border ${temErro ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500'}|" />
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="*{__${nomeAtributo}__}" />
+
+      <div th:if="${temErro}" class="end-0 absolute items-center inset-y-0 flex pointer-events-none justify-center pe-3">
+        <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
+    </div>
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="relative">
+      <input type="text" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valorAtributo}" th:disabled="${disabledFlag}" autocomplete="off"
+             class="componentemoney block w-full px-4 py-3 text-gray-500 disabled:opacity-50 border border-gray-300 rounded-lg focus:border-gray-500 focus:ring-gray-500" />
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="${valorAtributo}" />
+    </div>
+  </th:block>
+</th:block>
+
+<th:block th:fragment="inputData"
+  th:with="
+    disabledFlag=${isDisabled != null and isDisabled},
+    validFlag=${isValidado != null and isValidado}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+
+  <th:block th:if="${validFlag}">
+    <div class="relative" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <input type="text" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" autocomplete="off" placeholder="DD/MM/AAAA" maxlength="10"
+             th:class="|componentedata block w-full px-4 py-3 pr-12 text-gray-500 disabled:opacity-50 rounded-lg border ${temErro ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500'}|" />
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="*{__${nomeAtributo}__}" />
+
+      <button type="button" th:id="'btn-' + ${nomeAtributo}" th:disabled="${disabledFlag}"
+        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 disabled:opacity-50 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </button>
+
+      <div th:if="${temErro}" class="end-0 absolute items-center inset-y-0 flex pointer-events-none justify-center pe-12">
+        <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
+    </div>
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="relative">
+      <input type="text" th:name="${nomeAtributo}" th:id="${nomeAtributo}" 
+             th:value="${valorAtributo != null ? #temporals.format(valorAtributo, 'dd/MM/yyyy') : ''}" 
+             th:disabled="${disabledFlag}" autocomplete="off" placeholder="DD/MM/AAAA" maxlength="10"
+             class="componentedata block w-full px-4 py-3 pr-12 text-gray-500 disabled:opacity-50 border border-gray-300 rounded-lg focus:border-gray-500 focus:ring-gray-500" />
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" 
+             th:value="${valorAtributo != null ? #temporals.format(valorAtributo, 'dd/MM/yyyy') : ''}" />
+      
+      <button type="button" th:id="'btn-' + ${nomeAtributo}" th:disabled="${disabledFlag}"
+        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 disabled:opacity-50 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      </button>
+    </div>
+  </th:block>
+</th:block>
+
+<th:block th:fragment="inputHora"
+  th:with="
+    disabledFlag=${isDisabled != null and isDisabled},
+    validFlag=${isValidado != null and isValidado}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+
+  <th:block th:if="${validFlag}">
+    <div class="relative" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <input type="text" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" autocomplete="off" placeholder="00:00" maxlength="5"
+             th:class="|componentehora block w-full px-4 py-3 pr-12 text-gray-500 disabled:opacity-50 rounded-lg border ${temErro ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500'}|" />
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="*{__${nomeAtributo}__}" />
+
+      <button type="button" th:id="'btn-' + ${nomeAtributo}" th:disabled="${disabledFlag}"
+        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 disabled:opacity-50 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-6 w-6" viewBox="0 0 16 16">
+          <path d="M8.5 5a.5.5 0 0 0-1 0v2.5H6a.5.5 0 0 0 0 1h2a.5.5 0 0 0 .5-.5z"/>
+          <path d="M5.667 16C4.747 16 4 15.254 4 14.333v-1.86A6 6 0 0 1 2 8c0-1.777.772-3.374 2-4.472V1.667C4 .747 4.746 0 5.667 0h4.666C11.253 0 12 .746 12 1.667v1.86a6 6 0 0 1 1.918 3.48.502.502 0 0 1 .582.493v1a.5.5 0 0 1-.582.493A6 6 0 0 1 12 12.473v1.86c0 .92-.746 1.667-1.667 1.667zM13 8A5 5 0 1 0 3 8a5 5 0 0 0 10 0"/>
+        </svg>
+      </button>
+
+      <div th:if="${temErro}" class="end-0 absolute items-center inset-y-0 flex pointer-events-none justify-center pe-12">
+        <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
+    </div>
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="relative">
+      <input type="text" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valorAtributo}" th:disabled="${disabledFlag}" autocomplete="off" placeholder="00:00" maxlength="5"
+             class="componentehora block w-full px-4 py-3 pr-12 text-gray-500 disabled:opacity-50 border border-gray-300 rounded-lg focus:border-gray-500 focus:ring-gray-500" />
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="${valorAtributo}" />
+      
+      <button type="button" th:id="'btn-' + ${nomeAtributo}" th:disabled="${disabledFlag}"
+        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 disabled:opacity-50 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-6 w-6" viewBox="0 0 16 16">
+          <path d="M8.5 5a.5.5 0 0 0-1 0v2.5H6a.5.5 0 0 0 0 1h2a.5.5 0 0 0 .5-.5z"/>
+          <path d="M5.667 16C4.747 16 4 15.254 4 14.333v-1.86A6 6 0 0 1 2 8c0-1.777.772-3.374 2-4.472V1.667C4 .747 4.746 0 5.667 0h4.666C11.253 0 12 .746 12 1.667v1.86a6 6 0 0 1 1.918 3.48.502.502 0 0 1 .582.493v1a.5.5 0 0 1-.582.493A6 6 0 0 1 12 12.473v1.86c0 .92-.746 1.667-1.667 1.667zM13 8A5 5 0 1 0 3 8a5 5 0 0 0 10 0"/>
+        </svg>
+      </button>
+    </div>
+  </th:block>
+</th:block>
+
+<th:block th:fragment="inputNumero"
+  th:with="
+    disabledFlag=${isDisabled != null and isDisabled},
+    validFlag=${isValidado != null and isValidado}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+
+  <th:block th:if="${validFlag}">
+    <div class="relative" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <input type="text" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" autocomplete="off"
+             th:attr="data-decimal=${isDecimal}, data-groups=${showGroups}"
+             th:class="|input-numero block w-full px-4 py-3 text-gray-500 disabled:opacity-50 rounded-lg border ${temErro ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500'}|" />
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="*{__${nomeAtributo}__}" />
+
+      <div th:if="${temErro}" class="end-0 absolute items-center inset-y-0 flex pointer-events-none justify-center pe-3">
+        <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
+    </div>
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="relative">
+      <input type="text" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valorAtributo}" th:disabled="${disabledFlag}" autocomplete="off"
+             th:attr="data-decimal=${isDecimal}, data-groups=${showGroups}"
+             class="input-numero block w-full px-4 py-3 text-gray-500 disabled:opacity-50 border border-gray-300 rounded-lg focus:border-gray-500 focus:ring-gray-500" />
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="${valorAtributo}" />
+    </div>
+  </th:block>
+</th:block>
+
+<th:block th:fragment="inputTextArea"
+  th:with="
+    disabledFlag=${isDisabled != null and isDisabled},
+    validFlag=${isValidado != null and isValidado},
+    linhas=${nroLinhas ?: 3}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2 mt-6">Label</label>
+
+  <th:block th:if="${validFlag}">
+    <div class="relative" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      
+      <textarea th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" th:rows="${linhas}"
+             th:class="|block w-full px-4 py-3 pr-10 text-gray-500 disabled:opacity-50 rounded-lg border ${temErro ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500'}|"></textarea>
+      
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="*{__${nomeAtributo}__}" />
+
+      <div th:if="${temErro}" class="absolute flex items-start pointer-events-none" style="top: 0.85rem; right: 1rem;">
+        <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
+      
+    </div>
+    
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="relative">
+      <textarea th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:text="${valorAtributo}" th:disabled="${disabledFlag}" th:rows="${linhas}"
+             class="block w-full px-4 py-3 text-gray-500 disabled:opacity-50 border border-gray-300 rounded-lg focus:border-gray-500 focus:ring-gray-500"></textarea>
+      <input th:if="${disabledFlag}" type="hidden" th:name="${nomeAtributo}" th:value="${valorAtributo}" />
+    </div>
+  </th:block>
+</th:block>
+
+<th:block th:fragment="checkboxSimples"
+  th:with="
+    disabledFlag=${isDisabled ?: false},
+    switchFlag=${isSwitch ?: false},
+    validFlag=${isValidado ?: false},
+    checkedFlag=${valorAtributo ?: false}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <th:block th:if="${validFlag}">
+    
+    <div th:if="${!switchFlag}" class="flex items-center mt-4" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <input type="checkbox" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}"
+             th:class="|shrink-0 mt-0.5 rounded disabled:opacity-50 cursor-pointer ${temErro ? 'border-red-300 text-red-600 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 text-gray-600 focus:ring-gray-500 focus:border-gray-500'}|" />
+      <label th:for="${#ids.prev('__${nomeAtributo}__')}" th:text="${textoLabel}" 
+             th:class="|text-sm ms-3 cursor-pointer ${temErro ? 'text-red-600' : 'text-gray-700'}|"></label>
+    </div>
+
+    <div th:if="${switchFlag}" class="flex items-center mt-4" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input type="checkbox" th:field="*{__${nomeAtributo}__}" th:disabled="${disabledFlag}" class="sr-only peer" />
+        <div class="relative shrink-0 w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-600 disabled:opacity-50"
+             th:classappend="${temErro ? 'peer-focus:ring-red-300' : 'peer-focus:ring-gray-300'}"></div>
+        <span th:text="${textoLabel}" class="ms-3 text-sm font-medium" th:classappend="${temErro ? 'text-red-600' : 'text-gray-700'}"></span>
+      </label>
+    </div>
+
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-1"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    
+    <div th:if="${!switchFlag}" class="flex items-center mt-4">
+      <input type="checkbox" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:checked="${checkedFlag}" th:disabled="${disabledFlag}"
+             class="shrink-0 mt-0.5 rounded border-gray-300 text-gray-600 focus:ring-gray-500 focus:border-gray-500 disabled:opacity-50 cursor-pointer" />
+      <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="text-sm text-gray-700 ms-3 cursor-pointer"></label>
+    </div>
+
+    <div th:if="${switchFlag}" class="flex items-center mt-4">
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input type="checkbox" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:checked="${checkedFlag}" th:disabled="${disabledFlag}" class="sr-only peer" />
+        <div class="relative shrink-0 w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-600 disabled:opacity-50"></div>
+        <span th:text="${textoLabel}" class="ms-3 text-sm font-medium text-gray-700"></span>
+      </label>
+    </div>
+
+  </th:block>
+
+</th:block>
+
+<th:block th:fragment="checkboxMultiplo"
+  th:with="
+    disabledFlag=${isDisabled ?: false},
+    validFlag=${isValidado ?: false},
+    valoresSelecionados=${valorAtributo ?: null}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <th:block th:if="${validFlag}">
+    <label th:class="|block font-medium mb-2 mt-6 ${#fields.hasErrors('__${nomeAtributo}__') ? 'text-red-600' : 'text-gray-700'}|" th:text="${textoLabelGroup}">Grupo de Opções</label>
+
+    <div class="flex flex-col gap-3" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}, valoresDoObjeto=*{__${nomeAtributo}__}">
+      
+      <input type="hidden" th:name="${'_' + nomeAtributo}" value="on" />
+
+      <div th:each="item, stat : ${listaOpcoes}" class="flex items-center">
+        <input type="checkbox" th:name="${nomeAtributo}" th:id="${nomeAtributo + stat.index}" th:value="${propValue != null ? item[propValue] : item}" th:disabled="${disabledFlag}"
+               th:checked="${valoresDoObjeto != null and #lists.contains(valoresDoObjeto, item)}"
+               th:class="|shrink-0 mt-0.5 rounded disabled:opacity-50 cursor-pointer ${temErro ? 'border-red-300 text-red-600 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 text-gray-600 focus:ring-gray-500 focus:border-gray-500'}|" />
+        <label th:for="${nomeAtributo + stat.index}" 
+               th:text="${propLabel != null ? item[propLabel] : item}" 
+               th:class="|text-sm ms-3 cursor-pointer ${temErro ? 'text-red-600' : 'text-gray-700'}|"></label>
+      </div>
+    </div>
+    
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <label class="block font-medium mb-2 mt-6 text-gray-700" th:text="${textoLabelGroup}">Grupo de Opções</label>
+
+    <div class="flex flex-col gap-3">
+      <div th:each="item, stat : ${listaOpcoes}" class="flex items-center">
+        <input type="checkbox" th:name="${nomeAtributo}" th:id="${nomeAtributo + stat.index}" th:value="${propValue != null ? item[propValue] : item}" th:disabled="${disabledFlag}"
+               th:checked="${valoresSelecionados != null and #lists.contains(valoresSelecionados, item)}"
+               class="shrink-0 mt-0.5 rounded border-gray-300 text-gray-600 focus:ring-gray-500 focus:border-gray-500 disabled:opacity-50 cursor-pointer" />
+        <label th:for="${nomeAtributo + stat.index}" 
+               th:text="${propLabel != null ? item[propLabel] : item}" 
+               class="text-sm text-gray-700 ms-3 cursor-pointer"></label>
+      </div>
+    </div>
+  </th:block>
+
+</th:block>
+
+<th:block th:fragment="inputRadio"
+  th:with="
+    disabledFlag=${isDisabled ?: false},
+    validFlag=${isValidado ?: false},
+    valorSelecionado=${valorAtributo ?: null}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <th:block th:if="${validFlag}">
+    <label th:class="|block font-medium mb-2 mt-6 ${#fields.hasErrors('__${nomeAtributo}__') ? 'text-red-600' : 'text-gray-700'}|" th:text="${textoLabelGroup}">Grupo de Opções</label>
+
+    <div class="flex flex-col gap-3" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}, valorDoObjeto=*{__${nomeAtributo}__}">
+      <div th:each="item, stat : ${listaOpcoes}" class="flex items-center">
+        <input type="radio" th:name="${nomeAtributo}" th:id="${nomeAtributo + stat.index}" th:value="${propValue != null ? item[propValue] : item}" th:disabled="${disabledFlag}"
+               th:checked="${valorDoObjeto != null and valorDoObjeto == item}"
+               th:class="|shrink-0 mt-0.5 rounded-full disabled:opacity-50 cursor-pointer ${temErro ? 'border-red-300 text-red-600 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 text-gray-600 focus:ring-gray-500 focus:border-gray-500'}|" />
+        <label th:for="${nomeAtributo + stat.index}" 
+               th:text="${propLabel != null ? item[propLabel] : item}" 
+               th:class="|text-sm ms-3 cursor-pointer ${temErro ? 'text-red-600' : 'text-gray-700'}|"></label>
+      </div>
+    </div>
+    
+    <p th:if="${#fields.hasErrors('__${nomeAtributo}__')}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <label class="block font-medium mb-2 mt-6 text-gray-700" th:text="${textoLabelGroup}">Grupo de Opções</label>
+
+    <div class="flex flex-col gap-3">
+      <div th:each="item, stat : ${listaOpcoes}" class="flex items-center">
+        <input type="radio" th:name="${nomeAtributo}" th:id="${nomeAtributo + stat.index}" th:value="${propValue != null ? item[propValue] : item}" th:disabled="${disabledFlag}"
+               th:checked="${valorSelecionado != null ? valorSelecionado == item : stat.first}"
+               class="shrink-0 mt-0.5 rounded-full border-gray-300 text-gray-600 focus:ring-gray-500 focus:border-gray-500 disabled:opacity-50 cursor-pointer" />
+        <label th:for="${nomeAtributo + stat.index}" 
+               th:text="${propLabel != null ? item[propLabel] : item}" 
+               class="text-sm text-gray-700 ms-3 cursor-pointer"></label>
+      </div>
+    </div>
+  </th:block>
+
+</th:block>
+
+<th:block th:fragment="inputBuscavel"
+  th:with="
+    validFlag=${isValidado ?: false},
+    valAtributo=${valorAtributo ?: null},
+    txtAtributo=${textoAtributo ?: 'Selecione uma opção'}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <th:block th:if="${validFlag}">
+    <div class="searchable-select-container relative w-full mt-6" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}">
+      <label th:for="${nomeAtributo}" th:text="${textoLabel}" th:class="|block font-medium mb-2 ${temErro ? 'text-red-600' : 'text-gray-700'}|"></label>
+      
+      <div class="relative w-full">
+        <div class="custom-select-trigger flex items-center justify-between w-full px-4 py-3 text-base font-normal border rounded-lg cursor-pointer bg-white"
+             th:classappend="${temErro ? 'border-red-300 text-red-600 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 text-gray-500 focus:border-gray-500 focus:ring-gray-500'}"
+             th:attr="data-dropdown-target=${'#' + nomeAtributo + '-dropdown'}">
+          
+          <span class="selected-value-span truncate" th:id="${nomeAtributo + '-selected-text'}" th:text="${txtAtributo}"></span>
+          
+          <th:block th:if="${!temErro}">
+            <svg class="w-4 h-4 ml-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </th:block>
+        </div>
+        
+        <div th:if="${temErro}" class="end-0 absolute items-center inset-y-0 flex pointer-events-none justify-center pe-3" style="top: 0.5rem; bottom: 0.5rem;">
+          <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" x2="12" y1="8" y2="12"></line>
+            <line x1="12" x2="12.01" y1="16" y2="16"></line>
+          </svg>
+        </div>
+
+        <div class="custom-select-dropdown absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg hidden" th:id="${nomeAtributo + '-dropdown'}">
+          <div class="p-2 border-b border-gray-200">
+            <div class="relative">
+              <input type="text" class="w-full p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-transparent"
+                     th:placeholder="${placeholderBusca}" th:name="${nomeAtributoBusca ?: 'termoBusca'}" autocomplete="off"
+                     th:hx-get="@{__${urlBusca}__}" th:hx-target="${'#' + nomeAtributo + '-list'}"
+                     hx-trigger="keyup changed delay:500ms" hx-swap="innerHTML" />
+              <div class="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
+                <svg class="size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <ul class="options-list max-h-60 overflow-y-auto" th:id="${nomeAtributo + '-list'}"></ul>
+        </div>
+      </div>
+
+      <input type="hidden" class="hidden-select-input" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valAtributo}" />
+      
+      <p th:if="${temErro}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+    </div>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="searchable-select-container relative w-full mt-6">
+      <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block text-gray-700 font-medium mb-2"></label>
+      
+      <div class="relative w-full">
+        <div class="custom-select-trigger flex items-center justify-between w-full px-4 py-3 text-gray-500 text-base font-normal border border-gray-300 rounded-lg cursor-pointer bg-white"
+             th:attr="data-dropdown-target=${'#' + nomeAtributo + '-dropdown'}">
+          
+          <span class="selected-value-span truncate" th:id="${nomeAtributo + '-selected-text'}" th:text="${txtAtributo}"></span>
+          
+          <svg class="w-4 h-4 ml-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+
+        <div class="custom-select-dropdown absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg hidden" th:id="${nomeAtributo + '-dropdown'}">
+          <div class="p-2 border-b border-gray-200">
+            <div class="relative">
+              <input type="text" class="w-full p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-transparent"
+                     th:placeholder="${placeholderBusca}" th:name="${nomeAtributo + 'Busca'}" autocomplete="off"
+                     th:hx-get="@{__${urlBusca}__}" th:hx-target="${'#' + nomeAtributo + '-list'}"
+                     hx-trigger="keyup changed delay:500ms" hx-swap="innerHTML" />
+              <div class="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
+                <svg class="size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <ul class="options-list max-h-60 overflow-y-auto" th:id="${nomeAtributo + '-list'}"></ul>
+        </div>
+      </div>
+
+      <input type="hidden" class="hidden-select-input" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valAtributo}" />
+    </div>
+  </th:block>
+
+</th:block>
+
+<th:block th:fragment="selectNormal"
+  th:with="
+    validFlag=${isValidado ?: false},
+    disabledFlag=${isDisabled ?: false},
+    placeholder=${textoPlaceholder ?: 'Selecione uma opção'},
+    valAtributo=${valorAtributo ?: null}" 
+  xmlns:th="http://www.thymeleaf.org">
+
+  <th:block th:if="${validFlag}">
+    <div class="w-full mt-6" th:with="temErro=${#fields.hasErrors('__${nomeAtributo}__')}, valorDoObjeto=*{__${nomeAtributo}__}">
+      <label th:for="${nomeAtributo}" th:text="${textoLabel}" th:class="|block font-medium mb-2 ${temErro ? 'text-red-600' : 'text-gray-700'}|"></label>
+      
+      <div class="relative">
+        <select th:id="${nomeAtributo}" th:name="${nomeAtributo}" th:disabled="${disabledFlag}"
+                th:class="|py-3 px-4 block w-full rounded-lg text-base disabled:opacity-50 disabled:pointer-events-none focus:ring-transparent bg-white ${temErro ? 'border-red-300 text-red-600 focus:border-red-500 pe-16' : 'border-gray-300 text-gray-500 focus:border-gray-500 pe-9'}|">
+          
+          <option value="" th:text="${placeholder}"></option>
+          
+          <option th:each="item : ${listaOpcoes}"
+                  th:value="${propValue != null ? item[propValue] : item}"
+                  th:text="${propLabel != null ? item[propLabel] : item}"
+                  th:selected="${valorDoObjeto != null and valorDoObjeto == item}">
+          </option>
+        </select>
+        
+        <div th:if="${temErro}" class="absolute inset-y-0 end-0 flex items-center pointer-events-none pe-8">
+          <svg class="shrink-0 size-4 text-red-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" x2="12" y1="8" y2="12"></line>
+            <line x1="12" x2="12.01" y1="16" y2="16"></line>
+          </svg>
+        </div>
+      </div>
+      
+      <p th:if="${temErro}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
+    </div>
+  </th:block>
+
+  <th:block th:unless="${validFlag}">
+    <div class="w-full mt-6">
+      <label th:for="${nomeAtributo}" th:text="${textoLabel}" class="block font-medium mb-2 text-gray-700"></label>
+      
+      <select th:id="${nomeAtributo}" th:name="${nomeAtributo}" th:disabled="${disabledFlag}"
+              class="py-3 px-4 pe-9 block w-full border-gray-300 text-gray-500 rounded-lg text-base focus:border-gray-500 focus:ring-transparent bg-white disabled:opacity-50 disabled:pointer-events-none">
+        
+        <option value="" th:text="${placeholder}"></option>
+        
+        <option th:each="item : ${listaOpcoes}"
+                th:value="${propValue != null ? item[propValue] : item}"
+                th:text="${propLabel != null ? item[propLabel] : item}"
+                th:selected="${valAtributo != null and (valAtributo == (propValue != null ? item[propValue] : item))}">
+        </option>
+      </select>
+    </div>
+  </th:block>
+
+</th:block>

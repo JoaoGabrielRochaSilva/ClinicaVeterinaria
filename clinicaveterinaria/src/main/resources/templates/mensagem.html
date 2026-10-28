@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org" layout:decorate="~{layout/layoutpadrao}" >
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <title>Mensagem</title>
+</head>
+
+<body>
+  <!-- conteudo principal -->
+  <main layout:fragment="conteudo" th:fragment="texto" id="main" class="flex flex-col align-middle  w-full m-10">
+    <h1 th:text="${mensagem}" class="text-2xl md:text-4xl text-center">Vacina cadastrada com sucesso</h1>
+  </main>
+  <!-- !conteudo principal -->
+
+</body>
+
+</html>

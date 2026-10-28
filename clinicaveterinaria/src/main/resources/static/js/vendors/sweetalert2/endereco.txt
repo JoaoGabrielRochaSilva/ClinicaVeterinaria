@@ -1,0 +1,2 @@
+https://www.jsdelivr.com/package/npm/sweetalert2
+https://sweetalert2.github.io/#download

@@ -1,0 +1,3 @@
+https://github.com/bigskysoftware/htmx/releases
+https://github.com/bigskysoftware/htmx/tree/v4.0.0/dist
+https://htmx.org/

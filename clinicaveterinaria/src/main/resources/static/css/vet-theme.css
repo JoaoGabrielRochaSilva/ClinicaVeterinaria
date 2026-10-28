@@ -1,0 +1,361 @@
+/* ==========================================================================
+   Tema visual — Clínica Veterinária
+   Camada puramente visual, carregada DEPOIS de style.css (Tailwind compilado).
+   Não depende de recompilar o Tailwind: reaproveita as variáveis de cor do
+   próprio style.css e acrescenta regras por seletor.
+   Paleta: verde-petróleo, verde-menta, branco e neutros esverdeados.
+   ========================================================================== */
+
+/* ---------- Fontes locais (sem CDN) ---------- */
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/figtree-latin-wght-normal.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("../fonts/bricolage-grotesque-latin-wght-normal.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Tokens ---------- */
+:root {
+  --vet-petrol-900: #0d3b3e;
+  --vet-petrol-700: #14585b;
+  --vet-teal-600: #1b7a76;
+  --vet-teal-700: #14625f;
+  --vet-teal-500: #2a9d8f;
+  --vet-mint-100: #f1f8f5;
+  --vet-mint-200: #e2f3eb;
+  --vet-mint-300: #a8e6d0;
+  --vet-ink: #1c2b2a;
+  --vet-muted: #4a6360;
+  --vet-icon: #5f8a83;
+  --vet-line: #d3e3dc;
+  --vet-field: #a9c4bc;
+  --vet-radius: 0.75rem;
+  --vet-font-body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --vet-font-display: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;
+
+  /* Remapeia a escala de cinza/azul do Tailwind para a paleta da clínica.
+     Todas as classes bg-gray-*, text-gray-*, border-gray-*, bg-blue-* … passam
+     a usar estas cores sem que nenhum template precise trocar de classe. */
+  --color-gray-100: #eef6f3;
+  --color-gray-200: #dcebe5;
+  --color-gray-300: var(--vet-field);
+  --color-gray-400: #8fb5ac;
+  --color-gray-500: #45605c;
+  --color-gray-600: var(--vet-teal-600);
+  --color-gray-700: #223a38;
+  --color-gray-800: var(--vet-petrol-900);
+  --color-blue-100: #d9f1ea;
+  --color-blue-200: #b7e3d6;
+  --color-blue-500: var(--vet-teal-500);
+  --color-blue-600: var(--vet-teal-600);
+  --color-blue-700: var(--vet-teal-700);
+  --color-blue-800: #0f4d4a;
+  --font-sans: var(--vet-font-body);
+}
+
+/* ---------- Base ---------- */
+html { font-family: var(--vet-font-body); }
+body {
+  font-family: var(--vet-font-body);
+  color: var(--vet-ink);
+  background: var(--vet-mint-100);
+}
+
+/* ---------- Cabeçalho, menu lateral e rodapé ---------- */
+header.bg-gray-800 {
+  box-shadow: 0 1px 0 rgba(168, 230, 208, 0.18);
+}
+header a > div > .font-semibold {
+  font-family: var(--vet-font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+header img { border-radius: 0.6rem; }
+header a.rounded-lg,
+#menu-usuario a.rounded-lg {
+  border-radius: 999px;
+  font-weight: 600;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.hamburger-top,
+.hamburger-middle,
+.hamburger-bottom { background: var(--vet-mint-300); }
+
+/* menu lateral (desktop) */
+div.md\:w-72 { box-shadow: inset -1px 0 0 rgba(168, 230, 208, 0.12); }
+#menu button.w-48,
+div.md\:w-72 button.w-48 {
+  border-radius: 0.6rem;
+  padding-inline: 0.6rem;
+  margin-inline-start: -0.6rem;
+  transition: background-color 0.15s, color 0.15s;
+}
+#menu button.w-48:hover { background: rgba(168, 230, 208, 0.1); }
+#menu .ps-10 {
+  margin-inline-start: 0.55rem;
+  padding-inline-start: 1.5rem;
+  border-inline-start: 1px solid rgba(168, 230, 208, 0.22);
+}
+#menu a.text-gray-400:hover,
+#menu .hover\:text-white:hover { color: var(--vet-mint-300); }
+
+/* foco de teclado visível (o template original o removia) */
+#menu button:focus-visible,
+header a:focus-visible,
+header button:focus-visible,
+#menu a:focus-visible {
+  outline: 2px solid var(--vet-mint-300);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+footer.bg-gray-800 {
+  font-size: 0.875rem;
+  border-top: 1px solid rgba(168, 230, 208, 0.14);
+}
+
+/* ---------- Área principal ---------- */
+main#main {
+  background: #fff;
+  border: 1px solid var(--vet-line);
+  border-radius: 1.25rem;
+  margin: 1.75rem;
+  padding: 2rem 2.25rem;
+  align-self: flex-start;
+  justify-content: flex-start;
+  min-width: 0; /* deixa a tabela rolar dentro do cartão em vez de alargar a página */
+  box-shadow: 0 18px 36px -26px rgba(13, 59, 62, 0.35);
+}
+
+main#main h1,
+main#main h3 {
+  font-family: var(--vet-font-display);
+  color: var(--vet-petrol-900);
+  letter-spacing: -0.015em;
+}
+main#main h3.text-xl { font-size: 1.6rem; line-height: 1.2; font-weight: 700; }
+main#main h1.text-2xl { font-weight: 700; line-height: 1.1; }
+main#main h3.mt-5 { font-family: var(--vet-font-body); font-weight: 500; color: var(--vet-muted); letter-spacing: 0; }
+main#main a:not([class]),
+main#main h1 a,
+main#main h3 a {
+  color: var(--vet-teal-600);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* imagens das páginas de erro (tinham tamanho fixo em pixels) */
+main#main > img.mx-auto { display: block; max-width: min(100%, 30rem); height: auto; }
+
+/* página inicial */
+.vet-hero { max-width: 56rem; margin-inline: auto; text-align: center; }
+.vet-hero h1 { text-wrap: balance; }
+.vet-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.75rem auto 0;
+  border-radius: 1.5rem;
+}
+
+/* ---------- Formulários ---------- */
+main#main label.block { font-weight: 600; color: var(--vet-ink); }
+
+main#main input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+main#main textarea,
+main#main select,
+main#main .custom-select-trigger {
+  border-radius: var(--vet-radius);
+  color: var(--vet-ink);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+main#main input::placeholder,
+main#main textarea::placeholder { color: #7f9a95; }
+
+main#main input:focus:not([class*="border-red"]),
+main#main textarea:focus:not([class*="border-red"]),
+main#main select:focus:not([class*="border-red"]) {
+  outline: none;
+  border-color: var(--vet-teal-600);
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.28);
+}
+main#main input[type="checkbox"]:focus-visible,
+main#main input[type="radio"]:focus-visible {
+  outline: 2px solid var(--vet-teal-500);
+  outline-offset: 2px;
+}
+
+/* ícones dentro dos campos (calendário, relógio, olho, busca, e-mail) */
+main#main .text-gray-400 { color: var(--vet-icon); }
+main#main button[id^="btn-"],
+main#main .toggle-senha { color: var(--vet-teal-600); }
+main#main button[id^="btn-"]:hover,
+main#main .toggle-senha:hover { color: var(--vet-petrol-900); }
+main#main button[id^="btn-"]:focus-visible,
+main#main .toggle-senha:focus-visible {
+  outline: 2px solid var(--vet-teal-500);
+  outline-offset: -2px;
+  border-radius: var(--vet-radius);
+}
+
+/* lista suspensa do campo buscável */
+main#main .custom-select-dropdown {
+  border-radius: var(--vet-radius);
+  border-color: var(--vet-line);
+  box-shadow: 0 16px 32px -16px rgba(13, 59, 62, 0.35);
+  overflow: hidden;
+}
+main#main .options-list li:hover { background: var(--vet-mint-200); }
+
+/* formulário de pesquisa alinhado ao título e à tabela */
+main#main form.w-1\/2 { margin-inline-start: 0; }
+
+/* botão de envio não precisa ocupar a linha toda nos formulários em coluna */
+main#main form.flex-col > button[type="submit"] { align-self: flex-start; }
+
+/* botões de ação */
+main#main button.bg-blue-600 {
+  background: var(--vet-teal-600);
+  color: #fff;
+  border-radius: var(--vet-radius);
+  padding: 0.7rem 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  box-shadow: 0 8px 16px -10px rgba(20, 98, 95, 0.7);
+  transition: background-color 0.15s, transform 0.15s;
+}
+main#main button.bg-blue-600:hover { background: var(--vet-teal-700); }
+main#main button.bg-blue-600:active { transform: translateY(1px); }
+main#main button.bg-blue-600:focus-visible {
+  outline: 3px solid rgba(42, 157, 143, 0.45);
+  outline-offset: 2px;
+}
+
+/* ---------- Tabelas ---------- */
+main#main table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--vet-line);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+}
+main#main thead { background: var(--vet-mint-200); }
+main#main thead tr { border: 0; }
+main#main th {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: none;
+  color: var(--vet-petrol-700);
+  border-bottom: 1px solid var(--vet-line);
+}
+main#main tbody { border: 0; }
+main#main tbody tr { border: 0; transition: background-color 0.12s; }
+main#main tbody tr:nth-child(even) { background: #f7fbf9; }
+main#main tbody tr:hover { background: var(--vet-mint-200); }
+main#main td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  vertical-align: middle;
+  color: var(--vet-ink);
+  border-top: 1px solid var(--vet-line);
+}
+main#main tbody tr:first-child td { border-top: 0; }
+/* duas últimas colunas (ações) */
+main#main th:nth-last-child(-n + 2),
+main#main td:nth-last-child(-n + 2) { text-align: center; white-space: nowrap; width: 1%; }
+main#main td[colspan] { text-align: center; width: auto; color: var(--vet-muted); padding-block: 1.75rem; }
+
+main#main td a.text-blue-600,
+main#main td button.text-red-600 { font-size: 0.875rem; font-weight: 600; }
+main#main td button.text-red-600 { color: #b8403a; }
+main#main td a:hover,
+main#main td button:hover { text-decoration: underline; text-underline-offset: 3px; }
+main#main td a:focus-visible,
+main#main td button:focus-visible {
+  outline: 2px solid var(--vet-teal-500);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+/* ---------- Paginação ---------- */
+nav[aria-label="Pagination"] a,
+nav[aria-label="Pagination"] div {
+  border-color: var(--vet-line);
+  color: var(--vet-petrol-900);
+}
+nav[aria-label="Pagination"] a:hover { background: var(--vet-mint-200); }
+nav[aria-label="Pagination"] a.bg-gray-200 {
+  background: var(--vet-teal-600);
+  border-color: var(--vet-teal-600);
+  color: #fff;
+  font-weight: 700;
+}
+nav[aria-label="Pagination"] div { color: #a9bdb8; }
+
+/* ---------- Bibliotecas de terceiros ---------- */
+/* MCDatepicker (as cores são injetadas inline pelo JS; !important vence) */
+.mc-calendar {
+  --mc-theme-color: #1b7a76 !important;
+  --mc-display-background: #14585b !important;
+  --mc-weekday-foreground: #1b7a76 !important;
+  --mc-btn-success-foreground: #1b7a76 !important;
+  --mc-date-active-pick-background: #1b7a76 !important;
+  --mc-prev-active-pick-background: rgba(27, 122, 118, 0.2) !important;
+}
+/* SweetAlert2 — confirmação de remoção */
+.swal2-popup {
+  font-family: var(--vet-font-body);
+  border-radius: 1.25rem;
+}
+.swal2-title { font-family: var(--vet-font-display); color: var(--vet-petrol-900); }
+.swal2-styled.swal2-confirm {
+  background-color: var(--vet-teal-600) !important;
+  border-radius: var(--vet-radius);
+  font-weight: 600;
+}
+.swal2-styled.swal2-cancel { border-radius: var(--vet-radius); font-weight: 600; }
+.swal2-styled:focus { box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.4) !important; }
+
+/* Toasts coloridos (texto branco): tons escuros o bastante para contraste */
+.colored-toast.swal2-icon-success { background-color: #2b8a68 !important; }
+.colored-toast.swal2-icon-error { background-color: #c0453f !important; }
+.colored-toast.swal2-icon-warning { background-color: #a8661a !important; }
+.colored-toast.swal2-icon-info { background-color: #2b7a9a !important; }
+.colored-toast.swal2-icon-question { background-color: var(--vet-petrol-700) !important; }
+
+/* ---------- Responsividade ---------- */
+@media (max-width: 767px) {
+  main#main {
+    margin: 1rem;
+    padding: 1.25rem;
+    border-radius: 1rem;
+  }
+  main#main h3.text-xl { font-size: 1.35rem; }
+  /* formulários de pesquisa usavam metade da largura (w-1/2) */
+  main#main form.w-1\/2 { width: 100%; margin-inline-start: 0; }
+  /* tabelas largas rolam na horizontal em vez de estourar a tela */
+  main#main table { display: block; overflow-x: auto; }
+  .vet-hero img { border-radius: 1rem; }
+}
+
+/* ---------- Movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-label="Veterinária com um gato no colo e um cachorro sentado ao lado">
+  <rect width="960" height="560" rx="32" fill="#e6f6ef"/>
+  <circle cx="560" cy="270" r="240" fill="#cdeede"/>
+  <circle cx="170" cy="120" r="46" fill="#ffffff"/>
+  <path d="M158 120h24M170 108v24" stroke="#16666a" stroke-width="10" stroke-linecap="round"/>
+  <ellipse cx="480" cy="512" rx="400" ry="26" fill="#b7ddcb"/>
+
+  <!-- CACHORRO -->
+  <g>
+    <path d="M205 470 Q150 455 160 400" stroke="#d9a566" stroke-width="26" fill="none" stroke-linecap="round"/>
+    <ellipse cx="300" cy="410" rx="98" ry="104" fill="#d9a566"/>
+    <ellipse cx="300" cy="430" rx="55" ry="74" fill="#f0d3a5"/>
+    <ellipse cx="222" cy="478" rx="46" ry="36" fill="#d9a566"/>
+    <ellipse cx="378" cy="478" rx="46" ry="36" fill="#d9a566"/>
+    <rect x="256" y="440" width="34" height="62" rx="17" fill="#d9a566"/>
+    <rect x="310" y="440" width="34" height="62" rx="17" fill="#d9a566"/>
+    <ellipse cx="273" cy="504" rx="24" ry="12" fill="#f0d3a5"/>
+    <ellipse cx="327" cy="504" rx="24" ry="12" fill="#f0d3a5"/>
+    <ellipse cx="228" cy="312" rx="28" ry="56" fill="#b5803f" transform="rotate(14 228 312)"/>
+    <ellipse cx="372" cy="312" rx="28" ry="56" fill="#b5803f" transform="rotate(-14 372 312)"/>
+    <circle cx="300" cy="300" r="76" fill="#d9a566"/>
+    <ellipse cx="300" cy="326" rx="40" ry="31" fill="#f0d3a5"/>
+    <ellipse cx="300" cy="311" rx="15" ry="10.500" fill="#2b2b2b"/>
+    <path d="M300 321v10" stroke="#2b2b2b" stroke-width="3" stroke-linecap="round"/>
+    <path d="M300 331q-12 8-20 0M300 331q12 8 20 0" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="300" cy="346" rx="10" ry="13" fill="#f28b9b"/>
+    <circle cx="274" cy="280" r="7.500" fill="#2b2b2b"/><circle cx="326" cy="280" r="7.500" fill="#2b2b2b"/>
+    <circle cx="276.500" cy="277.500" r="2.500" fill="#fff"/><circle cx="328.500" cy="277.500" r="2.500" fill="#fff"/>
+    <path d="M250 366 Q300 392 350 366 L346 380 Q300 404 254 380 Z" fill="#16666a"/>
+    <circle cx="300" cy="394" r="10" fill="#a8e6d0"/>
+  </g>
+
+  <!-- VETERINÁRIA -->
+  <g>
+    <rect x="552" y="420" width="38" height="82" rx="14" fill="#14585b"/>
+    <rect x="606" y="420" width="38" height="82" rx="14" fill="#14585b"/>
+    <ellipse cx="568" cy="506" rx="30" ry="11" fill="#1d2b2b"/>
+    <ellipse cx="626" cy="506" rx="30" ry="11" fill="#1d2b2b"/>
+    <!-- braço esquerdo da cena: mão sobre a cabeça do cachorro -->
+    <path d="M540 232 L476 262 L384 236" stroke="#cfe3dc" stroke-width="42" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M540 232 L476 262 L384 236" stroke="#ffffff" stroke-width="37" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="376" cy="232" r="19" fill="#b97a50"/>
+    <!-- jaleco -->
+    <path d="M538 212 Q600 190 662 212 L686 330 L698 456 L502 456 L514 330 Z" fill="#ffffff" stroke="#cfe3dc" stroke-width="3"/>
+    <path d="M582 206 L600 280 L618 206 Z" fill="#16666a"/>
+    <path d="M600 280 V456" stroke="#d5e6e0" stroke-width="3"/>
+    <path d="M582 206 L562 238 L592 244 Z M618 206 L638 238 L608 244 Z" fill="#eaf4f0"/>
+    <rect x="626" y="356" width="40" height="30" rx="6" fill="#eaf4f0" stroke="#cfe3dc" stroke-width="2"/>
+    <path d="M646 364v14M639 371h14" stroke="#16666a" stroke-width="3" stroke-linecap="round"/>
+    <!-- braço que segura o gato -->
+    <path d="M662 226 L704 330 L790 338" stroke="#cfe3dc" stroke-width="42" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M662 226 L704 330 L790 338" stroke="#ffffff" stroke-width="37" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="796" cy="340" r="19" fill="#b97a50"/>
+    <!-- pescoço, cabeça -->
+    <rect x="588" y="168" width="24" height="40" fill="#a96b45"/>
+    <circle cx="600" cy="62" r="21" fill="#2a1d1a"/>
+    <circle cx="552" cy="134" r="9" fill="#b97a50"/><circle cx="648" cy="134" r="9" fill="#b97a50"/>
+    <circle cx="600" cy="128" r="49" fill="#b97a50"/>
+    <path d="M550 124 Q552 74 600 74 Q648 74 650 124 Q630 96 600 98 Q570 96 550 124 Z" fill="#2a1d1a"/>
+    <ellipse cx="582" cy="132" rx="4.500" ry="5.500" fill="#2a1d1a"/><ellipse cx="618" cy="132" rx="4.500" ry="5.500" fill="#2a1d1a"/>
+    <path d="M585 150 Q600 164 615 150" stroke="#4a2a1d" stroke-width="3.500" fill="none" stroke-linecap="round"/>
+    <circle cx="570" cy="148" r="7" fill="#e58a7a" opacity=".4"/><circle cx="630" cy="148" r="7" fill="#e58a7a" opacity=".4"/>
+    <!-- estetoscópio -->
+    <path d="M566 204 Q556 290 600 300 Q644 290 634 204" stroke="#37474f" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <circle cx="600" cy="306" r="11" fill="#9fb4b8" stroke="#37474f" stroke-width="4"/>
+  </g>
+
+  <!-- GATO -->
+  <g>
+    <path d="M770 318 Q830 316 826 252" stroke="#e59a4f" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <ellipse cx="736" cy="288" rx="56" ry="50" fill="#e59a4f"/>
+    <ellipse cx="736" cy="300" rx="27" ry="36" fill="#fbe8cf"/>
+    <path d="M696 186 L702 142 L734 172 Z M776 186 L770 142 L738 172 Z" fill="#e59a4f"/>
+    <path d="M704 176 L707 154 L722 170 Z M768 176 L765 154 L750 170 Z" fill="#f2a9a0"/>
+    <circle cx="736" cy="206" r="42" fill="#e59a4f"/>
+    <path d="M736 168v14M722 171l3 11M750 171l-3 11" stroke="#b8692a" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="720" cy="206" rx="7" ry="8" fill="#8fd3a3"/><ellipse cx="752" cy="206" rx="7" ry="8" fill="#8fd3a3"/>
+    <ellipse cx="720" cy="206" rx="2.200" ry="6" fill="#2b2b2b"/><ellipse cx="752" cy="206" rx="2.200" ry="6" fill="#2b2b2b"/>
+    <path d="M730 220 L742 220 L736 228 Z" fill="#e0707f"/>
+    <path d="M736 228 q-6 7 -13 3 M736 228 q6 7 13 3" stroke="#7a4420" stroke-width="2.500" fill="none" stroke-linecap="round"/>
+    <path d="M700 222 L676 216 M700 230 L676 234 M772 222 L796 216 M772 230 L796 234" stroke="#ffffff" stroke-width="2.500" stroke-linecap="round"/>
+  </g>
+
+  <!-- pegadas -->
+  <g fill="#b7ddcb">
+    <ellipse cx="110" cy="506" rx="9" ry="7"/><circle cx="98" cy="494" r="4"/><circle cx="108" cy="489" r="4"/><circle cx="119" cy="491" r="4"/><circle cx="127" cy="498" r="3.500"/>
+    <ellipse cx="860" cy="500" rx="9" ry="7"/><circle cx="848" cy="488" r="4"/><circle cx="858" cy="483" r="4"/><circle cx="869" cy="485" r="4"/><circle cx="877" cy="492" r="3.500"/>
+  </g>
+</svg>

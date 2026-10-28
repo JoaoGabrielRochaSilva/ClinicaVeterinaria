@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Pata com cruz — Clínica Veterinária">
+  <rect width="64" height="64" rx="18" fill="#a8e6d0"/>
+  <g fill="#0d3b3e">
+    <ellipse cx="17.5" cy="29" rx="5" ry="6.6" transform="rotate(-28 17.5 29)"/>
+    <ellipse cx="26" cy="19.5" rx="5.3" ry="7.4" transform="rotate(-9 26 19.5)"/>
+    <ellipse cx="38" cy="19.5" rx="5.3" ry="7.4" transform="rotate(9 38 19.5)"/>
+    <ellipse cx="46.5" cy="29" rx="5" ry="6.6" transform="rotate(28 46.5 29)"/>
+    <path d="M32 31c-9.5 0-17 9.6-15.4 17.2 1.3 6.2 8.6 6.4 15.4 3.6 6.8 2.8 14.1 2.6 15.4-3.6C49 40.600 41.500 31 32 31z"/>
+  </g>
+  <path d="M30 41h4v3.500h3.500v4H34v3.500h-4V48.500h-3.500v-4H30z" fill="#a8e6d0"/>
+</svg>
