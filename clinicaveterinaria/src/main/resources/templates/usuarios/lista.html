@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layoutpadrao}">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Usuários Cadastrados</title>
+</head>
+
+<body>
+    <!-- Conteúdo principal -->
+    <main layout:fragment="conteudo"
+          th:fragment="conteudo"
+          id="main"
+          class="flex flex-col align-middle justify-center w-full m-10">
+
+        <h3 class="text-xl font-bold mb-4">Usuários Cadastrados</h3>
+
+        <h3 th:if="${not #strings.isEmpty(mensagem)}"
+            th:text="${mensagem}"
+            class="text-2xl md:text-4xl text-center">
+            Texto
+        </h3>
+
+        <form th:hx-get="@{/usuarios}"
+              th:object="${usuarioSearchRequest}"
+              class="w-1/2 mt-6 ms-5">
+
+            <div th:replace="~{components/forms :: inputNumero(
+                textoLabel='ID',
+                nomeAtributo='id',
+                isDecimal=false)}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputTexto(
+                textoLabel='Nome',
+                nomeAtributo='nome')}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputEmail(
+                textoLabel='E-mail',
+                nomeAtributo='email')}">
+            </div>
+
+            <div th:with="permissoes=${T(com.example.trabalho.clinicaveterinaria.common.enums.Permissao).values()}">
+                <div th:replace="~{components/forms :: selectNormal(
+                    textoLabel='Permissão',
+                    nomeAtributo='permissao',
+                    listaOpcoes=${permissoes},
+                    textoPlaceholder='Todas as permissões')}">
+                </div>
+            </div>
+
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Pesquisar
+            </button>
+        </form>
+
+        <table class="table-auto border-collapse border border-gray-400 w-full mt-4">
+            <thead class="bg-gray-200">
+                <tr class="border border-gray-400">
+                    <th:block th:replace="~{components/paginacao :: coluna(${pagina}, 'id', 'ID', '')}"></th:block>
+                    <th:block th:replace="~{components/paginacao :: coluna(${pagina}, 'nome', 'Nome', '')}"></th:block>
+                    <th>E-mail</th>
+                    <th>Permissão</th>
+                </tr>
+            </thead>
+
+            <tbody class="border border-gray-400">
+                <tr th:each="usuario : ${pagina.conteudo}"
+                    class="border border-gray-400 text-center">
+
+                    <td th:text="${usuario.id}"></td>
+                    <td th:text="${usuario.nome}"></td>
+                    <td th:text="${usuario.email}"></td>
+                    <td th:text="${usuario.permissao}"></td>
+                </tr>
+
+                <tr th:if="${pagina.vazia}">
+                    <td colspan="6" style="text-align: center;">
+                        Nenhum usuário encontrado.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:replace="~{components/paginacao :: paginacao(${pagina})}"></div>
+    </main>
+    <!-- Fim do conteúdo principal -->
+</body>
+
+</html>

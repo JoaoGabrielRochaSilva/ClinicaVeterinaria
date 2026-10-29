@@ -1,0 +1,31 @@
+<th:block th:fragment="campos">
+
+    <div th:replace="~{components/forms :: inputTexto(
+        textoLabel='Nome',
+        nomeAtributo='nome',
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputEmail(
+        textoLabel='E-mail',
+        nomeAtributo='email',
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputSenha(
+        textoLabel='Senha',
+        nomeAtributo='senha',
+        isValidado=true)}">
+    </div>
+
+    <div th:with="permissoes=${T(com.example.trabalho.clinicaveterinaria.common.enums.Permissao).values()}">
+        <div th:replace="~{components/forms :: selectNormal(
+            textoLabel='Permissão',
+            nomeAtributo='permissao',
+            listaOpcoes=${permissoes},
+            isValidado=true,
+            textoPlaceholder='Selecione uma permissão')}">
+        </div>
+    </div>
+
+</th:block>
