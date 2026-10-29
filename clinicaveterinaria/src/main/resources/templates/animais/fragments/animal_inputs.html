@@ -1,0 +1,123 @@
+<th:block th:fragment="campos">
+
+    <div th:replace="~{components/forms :: inputTexto(
+        textoLabel='Nome do animal',
+        nomeAtributo='nome',
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputTexto(
+        textoLabel='Espécie',
+        nomeAtributo='especie',
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputData(
+        textoLabel='Data de nascimento',
+        nomeAtributo='dataNascimento',
+        isValidado=true)}">
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label for="sexo" class="font-medium">Sexo</label>
+
+        <select id="sexo"
+                th:field="*{sexo}"
+                class="border rounded p-2 w-full">
+            <option value="">Selecione o sexo</option>
+            <option value="Macho">Macho</option>
+            <option value="Fêmea">Fêmea</option>
+        </select>
+
+        <p th:if="${#fields.hasErrors('sexo')}"
+           th:errors="*{sexo}"
+           class="text-red-600 text-sm">
+        </p>
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label for="peso" class="font-medium">Peso (kg)</label>
+
+        <input id="peso"
+               type="number"
+               th:field="*{peso}"
+               min="1"
+               step="0.1"
+               placeholder="Ex.: 12.5"
+               class="border rounded p-2 w-full" />
+
+        <p th:if="${#fields.hasErrors('peso')}"
+           th:errors="*{peso}"
+           class="text-red-600 text-sm">
+        </p>
+    </div>
+
+    <div th:replace="~{components/forms :: inputBuscavel(
+        textoLabel='Dono do animal',
+        nomeAtributo='idDono',
+        nomeAtributoTexto='nomeDono',
+        nomeAtributoBusca='termoBusca',
+        placeholderBusca='Buscar dono pelo nome...',
+        urlBusca='/animais/pesquisar-dono',
+        valorAtributo=*{idDono},
+        valorAtributoTexto=*{nomeDono},
+        isValidado=true)}">
+    </div>
+
+</th:block>
+
+<th:block th:fragment="camposEdicao">
+
+    <div th:replace="~{components/forms :: inputTexto(
+        textoLabel='Nome do animal',
+        nomeAtributo='nome',
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputTexto(
+        textoLabel='Espécie',
+        nomeAtributo='especie',
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputData(
+        textoLabel='Data de nascimento',
+        nomeAtributo='dataNascimento',
+        isValidado=true)}">
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label for="sexo" class="font-medium">Sexo</label>
+
+        <select id="sexo"
+                th:field="*{sexo}"
+                class="border rounded p-2 w-full">
+            <option value="">Selecione o sexo</option>
+            <option value="Macho">Macho</option>
+            <option value="Fêmea">Fêmea</option>
+        </select>
+
+        <p th:if="${#fields.hasErrors('sexo')}"
+           th:errors="*{sexo}"
+           class="text-red-600 text-sm">
+        </p>
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label for="peso" class="font-medium">Peso (kg)</label>
+
+        <input id="peso"
+               type="number"
+               th:field="*{peso}"
+               min="1"
+               step="0.1"
+               placeholder="Ex.: 12.5"
+               class="border rounded p-2 w-full" />
+
+        <p th:if="${#fields.hasErrors('peso')}"
+           th:errors="*{peso}"
+           class="text-red-600 text-sm">
+        </p>
+    </div>
+
+</th:block>

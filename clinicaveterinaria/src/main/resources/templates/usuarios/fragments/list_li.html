@@ -1,0 +1,15 @@
+<th:block th:fragment="lista" xmlns:th="http://www.thymeleaf.org">
+
+    <li th:if="${#lists.isEmpty(usuarios)}"
+        class="p-2 text-gray-500 italic cursor-default pointer-events-none">
+        Nenhum dono encontrado.
+    </li>
+
+    <li th:each="usuario : ${usuarios}"
+        class="p-2 hover:bg-gray-100 cursor-pointer"
+        th:data-value="${usuario.id}"
+        th:data-text="${usuario.nome}"
+        th:text="${usuario.nome}">
+    </li>
+
+</th:block>

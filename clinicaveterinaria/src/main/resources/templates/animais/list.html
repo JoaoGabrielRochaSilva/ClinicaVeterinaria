@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layoutpadrao}">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Animais Cadastrados</title>
+</head>
+
+<body>
+    <main layout:fragment="conteudo"
+          th:fragment="conteudo"
+          id="main"
+          class="flex flex-col align-middle justify-center w-full m-10">
+
+        <h3 class="text-xl font-bold mb-4">Animais Cadastrados</h3>
+
+        <h3 th:if="${not #strings.isEmpty(mensagem)}"
+            th:text="${mensagem}"
+            class="text-2xl md:text-4xl text-center">
+            Texto
+        </h3>
+
+        <form th:hx-get="@{/animais}"
+              th:object="${animalSearchRequest}"
+              class="w-1/2 mt-6 ms-5">
+
+            <div th:replace="~{components/forms :: inputNumero(
+                textoLabel='Código',
+                nomeAtributo='id',
+                isDecimal=false)}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputTexto(
+                textoLabel='Nome do animal',
+                nomeAtributo='nome',
+                isObrigatorio=false)}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputTexto(
+                textoLabel='Espécie',
+                nomeAtributo='especie',
+                isObrigatorio=false)}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputData(
+                textoLabel='Nascimento a partir de',
+                nomeAtributo='dataNascimentoInicio',
+                isValidado=false)}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputData(
+                textoLabel='Nascimento até',
+                nomeAtributo='dataNascimentoFim',
+                isValidado=false)}">
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <label for="sexo" class="font-medium">Sexo</label>
+
+                <select id="sexo"
+                        th:field="*{sexo}"
+                        class="border rounded p-2 w-full">
+                    <option value="">Todos</option>
+                    <option value="Macho">Macho</option>
+                    <option value="Fêmea">Fêmea</option>
+                </select>
+            </div>
+
+            <div th:replace="~{components/forms :: inputNumero(
+                textoLabel='Peso (kg)',
+                nomeAtributo='peso',
+                isDecimal=true)}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputBuscavel(
+                textoLabel='Dono do animal',
+                nomeAtributo='idDono',
+                nomeAtributoTexto='nomeDono',
+                nomeAtributoBusca='termoBusca',
+                placeholderBusca='Buscar dono pelo nome...',
+                urlBusca='/animais/pesquisar-dono',
+                valorAtributo=*{idDono},
+                valorAtributoTexto=*{nomeDono},
+                isValidado=false)}">
+            </div>
+
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Pesquisar
+            </button>
+        </form>
+
+        <table class="table-auto border-collapse border border-gray-400 w-full mt-4">
+            <thead class="bg-gray-200">
+                <tr class="border border-gray-400">
+                    <th:block th:replace="~{components/paginacao :: coluna(${pagina}, 'id', 'Código', '')}"></th:block>
+                    <th:block th:replace="~{components/paginacao :: coluna(${pagina}, 'nome', 'Nome', '')}"></th:block>
+                    <th>Espécie</th>
+                    <th>Nascimento</th>
+                    <th>Sexo</th>
+                    <th>Peso (kg)</th>
+                    <th>Dono</th>
+                    <th>Alterar</th>
+                    <th>Remover</th>
+                </tr>
+            </thead>
+
+            <tbody class="border border-gray-400">
+
+                <tr th:each="animal : ${pagina.conteudo}"
+                    class="border border-gray-400 text-center">
+
+                    <td th:text="${animal.id}"></td>
+                    <td th:text="${animal.nome}"></td>
+                    <td th:text="${animal.especie}"></td>
+                    <td th:text="${animal.dataNascimento}"></td>
+                    <td th:text="${animal.sexo}"></td>
+                    <td th:text="${animal.peso}"></td>
+                    <td th:text="${animal.nomeDono}"></td>
+
+                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                        <a th:hx-get="@{/animais/{id}/editar(id=${animal.id})}"
+                           class="cursor-pointer text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-hidden focus:underline">
+                            Alterar
+                        </a>
+                    </td>
+
+                    <td>
+                        <button th:hx-confirm="${'Você vai remover o animal ' + animal.nome + '!'}"
+                                type="button"
+                                th:hx-delete="@{/animais/{id}(id=${animal.id})}"
+                                class="text-red-600 hover:text-red-500 decoration-2 hover:underline focus:outline-hidden focus:underline cursor-pointer bg-transparent border-0 p-0 inline">
+                            Remover
+                        </button>
+                    </td>
+                </tr>
+
+                <tr th:if="${pagina.vazia}">
+                    <td colspan="9" class="text-center p-4">
+                        Nenhum animal encontrado.
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div th:replace="~{components/paginacao :: paginacao(${pagina})}"></div>
+
+    </main>
+</body>
+
+</html>

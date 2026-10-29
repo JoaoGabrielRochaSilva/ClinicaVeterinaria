@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layoutpadrao}">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Editar Animal</title>
+</head>
+
+<body>
+    <main layout:fragment="conteudo"
+          th:fragment="formulario"
+          id="main"
+          class="flex flex-col align-middle justify-center w-full m-10">
+
+        <h3 class="text-xl font-bold mb-4">Editar Animal</h3>
+
+        <form th:hx-put="@{/animais/{id}(id=${animalId})}"
+              class="flex flex-col gap-4"
+              th:object="${animalUpdateRequest}">
+
+            <div th:replace="~{components/forms :: inputNumero(
+                textoLabel='Código',
+                nomeAtributo='id',
+                isDesabilitado=true,
+                valorAtributo=${animalId})}">
+            </div>
+
+            <div th:replace="~{animais/fragments/animal_inputs :: camposEdicao}"></div>
+
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Salvar Alterações
+            </button>
+        </form>
+    </main>
+</body>
+
+</html>

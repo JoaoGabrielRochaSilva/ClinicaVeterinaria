@@ -1,5 +1,7 @@
 package com.example.trabalho.clinicaveterinaria.usuario;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.trabalho.clinicaveterinaria.common.enums.Permissao;
 import com.example.trabalho.clinicaveterinaria.core.web.notification.NotificacaoSweetAlert2;
 import com.example.trabalho.clinicaveterinaria.core.web.notification.TipoNotificacaoSweetAlert2;
 import com.example.trabalho.clinicaveterinaria.core.web.pagination.PageWrapper;
@@ -58,8 +61,8 @@ public class UsuarioController {
         model.addAttribute("pagina", paginaWrapper);
 
         return htmxRequest.isHtmxRequest()
-                ? "usuarios/lista :: conteudo"
-                : "usuarios/lista";
+                ? "usuarios/list :: conteudo"
+                : "usuarios/list";
     }
 
     @GetMapping("/usuarios/nova")
@@ -74,6 +77,21 @@ public class UsuarioController {
                 ? "usuarios/create :: formulario"
                 : "usuarios/create";
     }
+
+    @GetMapping("/animais/pesquisar-dono")
+    public String pesquisarDono(String termoBusca, Model model) {
+
+        log.debug("Termo recebido na busca de donos: [{}]", termoBusca);
+
+        List<UsuarioResponse> usuarios =
+                usuarioService.buscarPeloNome(termoBusca, Permissao.CLIENTE);
+
+        log.debug("Quantidade de donos encontrados: {}", usuarios.size());
+
+        model.addAttribute("usuarios", usuarios);
+
+        return "usuarios/fragments/list_li :: lista";
+     }
 
     @PostMapping("/usuarios")
     public String cadastrar(
