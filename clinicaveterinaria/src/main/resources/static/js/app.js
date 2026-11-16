@@ -526,9 +526,10 @@ class AppVacinacao {
 
     static _dispararSweetAlert(e) {
         e.preventDefault();
+        const pergunta = e.detail.ctx?.confirm ?? e.detail.question;
         Swal.fire({
             title: AppVacinacao.CONFIG.texto.tituloConfirm,
-            text: e.detail.question,
+            text: pergunta,
             icon: "warning",
             showCancelButton: true,
             cancelButtonText: AppVacinacao.CONFIG.texto.cancelar,
@@ -537,6 +538,8 @@ class AppVacinacao {
         }).then((result) => {
             if (result.isConfirmed) {
                 e.detail.issueRequest(true);
+            } else {
+                e.detail.dropRequest();
             }
         });
     }
@@ -611,6 +614,7 @@ class AppVacinacao {
             const optionsList = container.querySelector(".options-list");
             const selectedValueSpan = container.querySelector(".selected-value-span");
             const hiddenInput = container.querySelector(".hidden-select-input");
+            const hiddenText = container.querySelector(".hidden-select-text");
 
             if (trigger && dropdown) {
                 trigger.addEventListener("click", (e) => {
@@ -648,6 +652,7 @@ class AppVacinacao {
                             selectedValueSpan.textContent = option.dataset.text || option.textContent.trim();
                         }
                         if (hiddenInput) hiddenInput.value = option.dataset.value;
+                        if (hiddenText) hiddenText.value = option.dataset.text || option.textContent.trim();
                         if (dropdown) dropdown.classList.add("hidden");
                         const trigger = container.querySelector(".custom-select-trigger");
                         if (trigger) {

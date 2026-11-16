@@ -31,30 +31,33 @@
             <div th:replace="~{components/forms :: inputNumero(
                 textoLabel='Código',
                 nomeAtributo='id',
+                valorAtributo=*{id},
                 isDecimal=false)}">
             </div>
 
             <div th:replace="~{components/forms :: inputTexto(
                 textoLabel='Nome do animal',
                 nomeAtributo='nome',
-                isObrigatorio=false)}">
+                valorAtributo=*{nome})}">
             </div>
 
             <div th:replace="~{components/forms :: inputTexto(
                 textoLabel='Espécie',
                 nomeAtributo='especie',
-                isObrigatorio=false)}">
+                valorAtributo=*{especie})}">
             </div>
 
             <div th:replace="~{components/forms :: inputData(
                 textoLabel='Nascimento a partir de',
                 nomeAtributo='dataNascimentoInicio',
+                valorAtributo=*{dataNascimentoInicio},
                 isValidado=false)}">
             </div>
 
             <div th:replace="~{components/forms :: inputData(
                 textoLabel='Nascimento até',
                 nomeAtributo='dataNascimentoFim',
+                valorAtributo=*{dataNascimentoFim},
                 isValidado=false)}">
             </div>
 
@@ -73,6 +76,7 @@
             <div th:replace="~{components/forms :: inputNumero(
                 textoLabel='Peso (kg)',
                 nomeAtributo='peso',
+                valorAtributo=*{peso},
                 isDecimal=true)}">
             </div>
 
@@ -117,7 +121,7 @@
                     <td th:text="${animal.id}"></td>
                     <td th:text="${animal.nome}"></td>
                     <td th:text="${animal.especie}"></td>
-                    <td th:text="${animal.dataNascimento}"></td>
+                    <td th:text="${#temporals.format(animal.dataNascimento, 'dd/MM/yyyy')}"></td>
                     <td th:text="${animal.sexo}"></td>
                     <td th:text="${animal.peso}"></td>
                     <td th:text="${animal.nomeDono}"></td>

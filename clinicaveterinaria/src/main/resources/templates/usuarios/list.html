@@ -25,39 +25,18 @@
             Texto
         </h3>
 
-        <form th:hx-get="@{/usuarios}"
-              th:object="${usuarioSearchRequest}"
-              class="w-1/2 mt-6 ms-5">
+        <form th:hx-get="@{/usuarios}" th:object="${usuarioSearchRequest}"
+            class="w-1/2 mt-6 ms-5" novalidate>
 
-            <div th:replace="~{components/forms :: inputNumero(
-                textoLabel='ID',
-                nomeAtributo='id',
-                isDecimal=false)}">
-            </div>
-
-            <div th:replace="~{components/forms :: inputTexto(
-                textoLabel='Nome',
-                nomeAtributo='nome')}">
-            </div>
-
-            <div th:replace="~{components/forms :: inputEmail(
-                textoLabel='E-mail',
-                nomeAtributo='email')}">
-            </div>
+            <div th:replace="~{components/forms :: inputNumero(textoLabel='ID', nomeAtributo='id', isDecimal=false, valorAtributo=*{id})}"></div>
+            <div th:replace="~{components/forms :: inputTexto(textoLabel='Nome', nomeAtributo='nome', valorAtributo=*{nome})}"></div>
+            <div th:replace="~{components/forms :: inputEmail(textoLabel='E-mail', nomeAtributo='email', valorAtributo=*{email})}"></div>
 
             <div th:with="permissoes=${T(com.example.trabalho.clinicaveterinaria.common.enums.Permissao).values()}">
-                <div th:replace="~{components/forms :: selectNormal(
-                    textoLabel='Permissão',
-                    nomeAtributo='permissao',
-                    listaOpcoes=${permissoes},
-                    textoPlaceholder='Todas as permissões')}">
-                </div>
+                <div th:replace="~{components/forms :: selectNormal(textoLabel='Permissão', nomeAtributo='permissao', listaOpcoes=${permissoes}, textoPlaceholder='Todas as permissões', valorAtributo=*{permissao})}"></div>
             </div>
 
-            <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Pesquisar
-            </button>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pesquisar</button>
         </form>
 
         <table class="table-auto border-collapse border border-gray-400 w-full mt-4">
@@ -81,7 +60,7 @@
                 </tr>
 
                 <tr th:if="${pagina.vazia}">
-                    <td colspan="6" style="text-align: center;">
+                    <td colspan="4" style="text-align: center;">
                         Nenhum usuário encontrado.
                     </td>
                 </tr>

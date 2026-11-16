@@ -48,7 +48,7 @@ public class Agendamento implements Serializable {
 
     @ToString.Include
     @Column (name = "data_hora")
-    private LocalDateTime dataHora;//Data e hora que a consulta foi marcada
+    private LocalDateTime dataHora;//Data e hora agendadas para a consulta
 
     @ToString.Include
     private String motivo;

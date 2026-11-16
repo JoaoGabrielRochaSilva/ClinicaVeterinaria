@@ -527,7 +527,7 @@
   th:with="
     validFlag=${isValidado ?: false},
     valAtributo=${valorAtributo ?: null},
-    txtAtributo=${textoAtributo ?: 'Selecione uma opção'}" 
+    txtAtributo=${#strings.isEmpty(valorAtributoTexto) ? 'Selecione uma opção' : valorAtributoTexto}" 
   xmlns:th="http://www.thymeleaf.org">
 
   <th:block th:if="${validFlag}">
@@ -576,6 +576,9 @@
       </div>
 
       <input type="hidden" class="hidden-select-input" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valAtributo}" />
+      <input type="hidden" class="hidden-select-text"
+       th:if="${nomeAtributoTexto != null}"
+       th:name="${nomeAtributoTexto}" th:value="${valorAtributoTexto}" />
       
       <p th:if="${temErro}" th:each="erro : ${#fields.errors('__${nomeAtributo}__')}" th:text="${erro} + '. '" class="text-sm text-red-600 mt-2"></p>
     </div>
@@ -600,7 +603,7 @@
           <div class="p-2 border-b border-gray-200">
             <div class="relative">
               <input type="text" class="w-full p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-transparent"
-                     th:placeholder="${placeholderBusca}" th:name="${nomeAtributo + 'Busca'}" autocomplete="off"
+                     th:placeholder="${placeholderBusca}" th:name="${nomeAtributoBusca ?: 'termoBusca'}" autocomplete="off"
                      th:hx-get="@{__${urlBusca}__}" th:hx-target="${'#' + nomeAtributo + '-list'}"
                      hx-trigger="keyup changed delay:500ms" hx-swap="innerHTML" />
               <div class="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
@@ -616,6 +619,9 @@
       </div>
 
       <input type="hidden" class="hidden-select-input" th:name="${nomeAtributo}" th:id="${nomeAtributo}" th:value="${valAtributo}" />
+      <input type="hidden" class="hidden-select-text"
+       th:if="${nomeAtributoTexto != null}"
+       th:name="${nomeAtributoTexto}" th:value="${valorAtributoTexto}" />
     </div>
   </th:block>
 

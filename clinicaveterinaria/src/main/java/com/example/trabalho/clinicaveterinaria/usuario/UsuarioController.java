@@ -14,6 +14,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.trabalho.clinicaveterinaria.common.enums.Permissao;
@@ -79,7 +80,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/animais/pesquisar-dono")
-    public String pesquisarDono(String termoBusca, Model model) {
+    public String pesquisarDono(@RequestParam(defaultValue = "") String termoBusca, Model model) {
 
         log.debug("Termo recebido na busca de donos: [{}]", termoBusca);
 

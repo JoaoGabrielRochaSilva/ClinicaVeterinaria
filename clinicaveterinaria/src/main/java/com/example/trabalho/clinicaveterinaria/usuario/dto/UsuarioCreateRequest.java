@@ -5,7 +5,13 @@ import com.example.trabalho.clinicaveterinaria.common.enums.Permissao;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import com.example.trabalho.clinicaveterinaria.core.validation.UniqueValueAttribute;
+import com.example.trabalho.clinicaveterinaria.usuario.EmailUnicoService;
 
+@UniqueValueAttribute(
+    attribute = "email",
+    service = EmailUnicoService.class,
+    message = "Já existe um usuário cadastrado com este e-mail")
 public record UsuarioCreateRequest(
     @NotBlank (message = "Nome é obrigatório")
     String nome,
