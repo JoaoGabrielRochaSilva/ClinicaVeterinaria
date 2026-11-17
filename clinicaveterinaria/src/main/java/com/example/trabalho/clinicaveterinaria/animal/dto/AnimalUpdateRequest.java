@@ -2,10 +2,10 @@ package com.example.trabalho.clinicaveterinaria.animal.dto;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 
 public record AnimalUpdateRequest(
     @NotBlank (message = "Nome é obrigatório")
@@ -18,7 +18,7 @@ public record AnimalUpdateRequest(
     @NotBlank (message = "Sexo do animal é obrigatório")
     String sexo,
     @NotNull (message = "Peso do animal é obrigatório")
-    @Min (value = 1, message = "Informe um peso válido")
+    @Positive (message = "Informe um peso válido")
     Double peso
 ) {
 

@@ -42,6 +42,24 @@ public class UsuarioService {
         return usuario;
     }
 
+    @Transactional(readOnly = true)
+    public Usuario buscarAtivoComPermissao(Long id, Permissao permissao) {
+        Usuario usuario = usuarioRepository
+                .findByIdAndStatus(id, Status.ATIVO)
+                .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Usuário não encontrado ou inativo"
+                ));
+
+        if (usuario.getPermissao() != permissao) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "O usuário informado não possui a permissão " + permissao
+            );
+        }
+        return usuario;
+    }
+
     private Usuario toEntity(UsuarioSearchRequest request) {
         Usuario usuario = new Usuario();
 

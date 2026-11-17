@@ -17,10 +17,9 @@ import com.example.trabalho.clinicaveterinaria.animal.dto.AnimalSearchRequest;
 import com.example.trabalho.clinicaveterinaria.animal.dto.AnimalUpdateRequest;
 import com.example.trabalho.clinicaveterinaria.common.enums.Permissao;
 import com.example.trabalho.clinicaveterinaria.common.enums.Status;
-import com.example.trabalho.clinicaveterinaria.prontuario.Prontuario;
-import com.example.trabalho.clinicaveterinaria.prontuario.ProntuarioRepository;
+import com.example.trabalho.clinicaveterinaria.prontuario.ProntuarioService;
 import com.example.trabalho.clinicaveterinaria.usuario.Usuario;
-import com.example.trabalho.clinicaveterinaria.usuario.UsuarioRepository;
+import com.example.trabalho.clinicaveterinaria.usuario.UsuarioService;
 
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -31,8 +30,8 @@ import lombok.AllArgsConstructor;
 public class AnimalService {
 
     private final AnimalRepository animalRepository;
-    private final UsuarioRepository usuarioRepository;
-    private final ProntuarioRepository prontuarioRepository;
+    private final UsuarioService usuarioService;
+    private final ProntuarioService prontuarioService;
 
     private AnimalResponse toResponse(Animal animal) {
         return new AnimalResponse(
@@ -161,30 +160,12 @@ public class AnimalService {
         animal.setSexo(request.sexo());
         animal.setPeso(request.peso());
 
-        Usuario dono = usuarioRepository
-            .findByIdAndStatus(request.idDono(), Status.ATIVO)
-            .orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "Dono não encontrado ou inativo"
-            ));
-
-        if (dono.getPermissao() != Permissao.CLIENTE) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "O usuário informado não possui permissão de cliente"
-            );
-        }
-
+        Usuario dono = usuarioService.buscarAtivoComPermissao(request.idDono(), Permissao.CLIENTE);
         animal.setDono(dono);
+        animal.setProntuario(prontuarioService.criar());
 
-        // Cria o prontuário associado ao animal
-        Prontuario prontuario = new Prontuario();
-        prontuarioRepository.save(prontuario);
-
-        animal.setProntuario(prontuario);
-
-        return animal;
-    }
+                return animal;
+            }
 
     @Transactional
     public AnimalResponse salvar(AnimalCreateRequest request) {
