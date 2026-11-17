@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.example.trabalho.clinicaveterinaria.animal.Animal;
 import com.example.trabalho.clinicaveterinaria.common.enums.StatusAgendamento;
+import com.example.trabalho.clinicaveterinaria.common.enums.Status;
 import com.example.trabalho.clinicaveterinaria.usuario.Usuario;
 
 import jakarta.persistence.Column;
@@ -64,5 +65,9 @@ public class Agendamento implements Serializable {
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "usuario_id")
     private Usuario veterinario;
+
+    @Enumerated (EnumType.STRING)
+    @ToString.Include
+    private Status status = Status.ATIVO;
 
 }

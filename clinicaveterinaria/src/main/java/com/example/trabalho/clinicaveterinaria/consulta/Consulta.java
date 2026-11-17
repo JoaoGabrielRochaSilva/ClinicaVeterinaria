@@ -47,12 +47,14 @@ public class Consulta implements Serializable {
 
     @ToString.Include
     @Column (name = "data_hora")
-    private LocalDateTime dataHora; //Data e hora que ocorreu a consulta
+    private LocalDateTime dataHora; // Momento real em que o atendimento foi realizado
 
     @ToString.Include
+    @Column (columnDefinition = "TEXT")
     private String diagnostico;
 
     @ToString.Include
+    @Column (columnDefinition = "TEXT")
     private String tratamento;
 
     @OneToOne (fetch = FetchType.LAZY)
