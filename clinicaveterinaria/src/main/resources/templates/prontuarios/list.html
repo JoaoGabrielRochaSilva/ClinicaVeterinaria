@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layoutpadrao}">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Prontuários</title>
+</head>
+
+<body>
+    <main layout:fragment="conteudo"
+          th:fragment="conteudo"
+          id="main"
+          class="flex flex-col align-middle justify-center w-full m-10">
+
+        <h3 class="text-xl font-bold mb-4">Prontuários</h3>
+
+        <h3 th:if="${not #strings.isEmpty(mensagem)}"
+            th:text="${mensagem}"
+            class="text-2xl md:text-4xl text-center">
+            Texto
+        </h3>
+
+        <form th:hx-get="@{/prontuarios}"
+              th:object="${prontuarioSearchRequest}"
+              class="w-1/2 mt-6 ms-5">
+
+            <div th:replace="~{components/forms :: inputNumero(
+                textoLabel='Código do animal',
+                nomeAtributo='idAnimal',
+                valorAtributo=*{idAnimal},
+                isDecimal=false)}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputTexto(
+                textoLabel='Nome do animal',
+                nomeAtributo='nomeAnimal',
+                valorAtributo=*{nomeAnimal})}">
+            </div>
+
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Pesquisar
+            </button>
+        </form>
+
+        <table class="table-auto border-collapse border border-gray-400 w-full mt-4">
+            <thead class="bg-gray-200">
+                <tr class="border border-gray-400">
+                    <th:block th:replace="~{components/paginacao :: coluna(${pagina}, 'id', 'Código', '')}"></th:block>
+                    <th>Animal</th>
+                    <th>Código do animal</th>
+                    <th>Alterar</th>
+                </tr>
+            </thead>
+
+            <tbody class="border border-gray-400">
+
+                <tr th:each="prontuario : ${pagina.conteudo}"
+                    class="border border-gray-400 text-center">
+
+                    <td th:text="${prontuario.id}"></td>
+                    <td th:text="${prontuario.nomeAnimal}"></td>
+                    <td th:text="${prontuario.idAnimal}"></td>
+
+                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                        <a th:hx-get="@{/prontuarios/{id}/editar(id=${prontuario.id})}"
+                           class="cursor-pointer text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-hidden focus:underline">
+                            Alterar
+                        </a>
+                    </td>
+                </tr>
+
+                <tr th:if="${pagina.vazia}">
+                    <td colspan="4" class="text-center p-4">
+                        Nenhum prontuário encontrado.
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div th:replace="~{components/paginacao :: paginacao(${pagina})}"></div>
+
+    </main>
+</body>
+
+</html>

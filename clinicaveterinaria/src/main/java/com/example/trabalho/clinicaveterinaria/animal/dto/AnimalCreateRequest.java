@@ -22,6 +22,9 @@ public record AnimalCreateRequest(
     Double peso,
     @NotNull (message = "Dono é obrigatório")
     Long idDono,
-    String nomeDono
+    String nomeDono,
+    String alergias,
+    String doencasPreExistentes,
+    String observacoes
 ) {
 }

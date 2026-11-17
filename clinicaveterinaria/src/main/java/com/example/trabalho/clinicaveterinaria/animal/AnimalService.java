@@ -162,7 +162,11 @@ public class AnimalService {
 
         Usuario dono = usuarioService.buscarAtivoComPermissao(request.idDono(), Permissao.CLIENTE);
         animal.setDono(dono);
-        animal.setProntuario(prontuarioService.criar());
+        animal.setProntuario(prontuarioService.criar(
+            request.alergias(),
+            request.doencasPreExistentes(),
+            request.observacoes()
+        ));
 
                 return animal;
             }

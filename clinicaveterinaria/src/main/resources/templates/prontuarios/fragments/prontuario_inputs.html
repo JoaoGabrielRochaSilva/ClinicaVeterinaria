@@ -1,0 +1,24 @@
+<th:block th:fragment="campos">
+
+    <div th:replace="~{components/forms :: inputTextArea(
+        textoLabel='Alergias conhecidas',
+        nomeAtributo='alergias',
+        isValidado=true,
+        nroLinhas=3)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputTextArea(
+        textoLabel='Doenças pré-existentes',
+        nomeAtributo='doencasPreExistentes',
+        isValidado=true,
+        nroLinhas=3)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputTextArea(
+        textoLabel='Observações',
+        nomeAtributo='observacoes',
+        isValidado=true,
+        nroLinhas=3)}">
+    </div>
+
+</th:block>

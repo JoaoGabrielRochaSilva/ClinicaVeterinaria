@@ -108,6 +108,7 @@
                     <th>Sexo</th>
                     <th>Peso (kg)</th>
                     <th>Dono</th>
+                    <th>Prontuário</th>
                     <th>Alterar</th>
                     <th>Remover</th>
                 </tr>
@@ -125,6 +126,13 @@
                     <td th:text="${animal.sexo}"></td>
                     <td th:text="${animal.peso}"></td>
                     <td th:text="${animal.nomeDono}"></td>
+
+                    <td>
+                        <a th:hx-get="@{/prontuarios/animal/{id}(id=${animal.id})}"
+                        class="cursor-pointer text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-hidden focus:underline">
+                            Prontuário
+                        </a>
+                    </td>
 
                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                         <a th:hx-get="@{/animais/{id}/editar(id=${animal.id})}"
@@ -144,7 +152,7 @@
                 </tr>
 
                 <tr th:if="${pagina.vazia}">
-                    <td colspan="9" class="text-center p-4">
+                    <td colspan="10" class="text-center p-4">
                         Nenhum animal encontrado.
                     </td>
                 </tr>
