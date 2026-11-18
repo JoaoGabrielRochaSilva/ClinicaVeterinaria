@@ -36,106 +36,98 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class UsuarioController {
 
-    private final UsuarioService usuarioService;
+        private final UsuarioService usuarioService;
 
-    @GetMapping("/usuarios")
-    public String pesquisar(
-            UsuarioSearchRequest form,
-            Model model,
-            @PageableDefault(size = 7)
-            @SortDefault(
-                sort = "id",
-                direction = Sort.Direction.ASC
-            )
-            Pageable pageable,
-            HttpServletRequest request,
-            HtmxRequest htmxRequest) {
+        @GetMapping("/usuarios")
+        public String pesquisar(
+                        UsuarioSearchRequest form,
+                        Model model,
+                        @PageableDefault(size = 7) @SortDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+                        HttpServletRequest request,
+                        HtmxRequest htmxRequest) {
 
-        Page<UsuarioResponse> pagina =
-                usuarioService.pesquisar(form, pageable);
+                Page<UsuarioResponse> pagina = usuarioService.pesquisar(form, pageable);
 
-        log.info("Usuários pesquisados: {}", pagina.getContent());
+                log.info("Usuários pesquisados: {}", pagina.getContent());
 
-        PageWrapper<UsuarioResponse> paginaWrapper =
-                new PageWrapper<>(pagina, request);
+                PageWrapper<UsuarioResponse> paginaWrapper = new PageWrapper<>(pagina, request);
 
-        model.addAttribute("pagina", paginaWrapper);
+                model.addAttribute("pagina", paginaWrapper);
 
-        return htmxRequest.isHtmxRequest()
-                ? "usuarios/list :: conteudo"
-                : "usuarios/list";
-    }
-
-    @GetMapping("/usuarios/nova")
-    public String abrirFormulario(
-            UsuarioCreateRequest request,
-            Model model,
-            HtmxRequest htmxRequest) {
-
-        model.addAttribute("usuarioCreateRequest", request);
-
-        return htmxRequest.isHtmxRequest()
-                ? "usuarios/create :: formulario"
-                : "usuarios/create";
-    }
-
-    @GetMapping("/animais/pesquisar-dono")
-    public String pesquisarDono(@RequestParam(defaultValue = "") String termoBusca, Model model) {
-
-        log.debug("Termo recebido na busca de donos: [{}]", termoBusca);
-
-        List<UsuarioResponse> usuarios =
-                usuarioService.buscarPeloNome(termoBusca, Permissao.CLIENTE);
-
-        log.debug("Quantidade de donos encontrados: {}", usuarios.size());
-
-        model.addAttribute("usuarios", usuarios);
-
-        return "usuarios/fragments/list_li :: lista";
-     }
-
-    @PostMapping("/usuarios")
-    public String cadastrar(
-            @Valid UsuarioCreateRequest request,
-            BindingResult resultado,
-            RedirectAttributes atributos,
-            HtmxRequest htmxRequest) {
-
-        if (resultado.hasErrors()) {
-            log.info("O usuário recebido para cadastrar não é válido.");
-            log.info("Erros encontrados:");
-
-            for (FieldError erro : resultado.getFieldErrors()) {
-                log.info("{}", erro);
-            }
-
-            for (ObjectError erro : resultado.getGlobalErrors()) {
-                log.info("{}", erro);
-            }
-
-            return htmxRequest.isHtmxRequest()
-                    ? "usuarios/create :: formulario"
-                    : "usuarios/create";
+                return htmxRequest.isHtmxRequest()
+                                ? "usuarios/list :: conteudo"
+                                : "usuarios/list";
         }
 
-        usuarioService.salvar(request);
+        @GetMapping("/usuarios/nova")
+        public String abrirFormulario(
+                        UsuarioCreateRequest request,
+                        Model model,
+                        HtmxRequest htmxRequest) {
 
-        atributos.addFlashAttribute(
-                "notificacaoSA2",
-                new NotificacaoSweetAlert2(
-                        "Usuário cadastrado com sucesso!",
-                        TipoNotificacaoSweetAlert2.SUCCESS,
-                        4000
-                )
-        );
+                model.addAttribute("usuarioCreateRequest", request);
 
-        atributos.addFlashAttribute(
-                "mensagem",
-                "Usuário cadastrado com sucesso"
-        );
+                return htmxRequest.isHtmxRequest()
+                                ? "usuarios/create :: formulario"
+                                : "usuarios/create";
+        }
 
-        return htmxRequest.isHtmxRequest()
-                ? "redirect:htmx:location:/usuarios"
-                : "redirect:/usuarios";
-    }
+        @GetMapping("/usuarios/pesquisar")
+        public String pesquisarPorPermissao(
+                        @RequestParam(defaultValue = "") String termoBusca,
+                        @RequestParam Permissao permissao,
+                        Model model) {
+
+                log.debug("Termo recebido na busca de usuários ({}): [{}]", permissao, termoBusca);
+
+                List<UsuarioResponse> usuarios = usuarioService.buscarPeloNome(termoBusca, permissao);
+
+                log.debug("Quantidade de usuários encontrados: {}", usuarios.size());
+
+                model.addAttribute("usuarios", usuarios);
+
+                return "usuarios/fragments/list_li :: lista";
+        }
+
+        @PostMapping("/usuarios")
+        public String cadastrar(
+                        @Valid UsuarioCreateRequest request,
+                        BindingResult resultado,
+                        RedirectAttributes atributos,
+                        HtmxRequest htmxRequest) {
+
+                if (resultado.hasErrors()) {
+                        log.info("O usuário recebido para cadastrar não é válido.");
+                        log.info("Erros encontrados:");
+
+                        for (FieldError erro : resultado.getFieldErrors()) {
+                                log.info("{}", erro);
+                        }
+
+                        for (ObjectError erro : resultado.getGlobalErrors()) {
+                                log.info("{}", erro);
+                        }
+
+                        return htmxRequest.isHtmxRequest()
+                                        ? "usuarios/create :: formulario"
+                                        : "usuarios/create";
+                }
+
+                usuarioService.salvar(request);
+
+                atributos.addFlashAttribute(
+                                "notificacaoSA2",
+                                new NotificacaoSweetAlert2(
+                                                "Usuário cadastrado com sucesso!",
+                                                TipoNotificacaoSweetAlert2.SUCCESS,
+                                                4000));
+
+                atributos.addFlashAttribute(
+                                "mensagem",
+                                "Usuário cadastrado com sucesso");
+
+                return htmxRequest.isHtmxRequest()
+                                ? "redirect:htmx:location:/usuarios"
+                                : "redirect:/usuarios";
+        }
 }

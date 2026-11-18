@@ -1,0 +1,45 @@
+<th:block th:fragment="campos">
+
+    <div th:replace="~{components/forms :: inputBuscavel(
+        textoLabel='Animal',
+        nomeAtributo='idAnimal',
+        nomeAtributoTexto='nomeAnimal',
+        nomeAtributoBusca='termoBusca',
+        placeholderBusca='Buscar animal pelo nome...',
+        urlBusca='/animais/pesquisar',
+        valorAtributo=*{idAnimal},
+        valorAtributoTexto=*{nomeAnimal},
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputBuscavel(
+        textoLabel='Veterinário',
+        nomeAtributo='idVeterinario',
+        nomeAtributoTexto='nomeVeterinario',
+        nomeAtributoBusca='termoBusca',
+        placeholderBusca='Buscar veterinário pelo nome...',
+        urlBusca='/usuarios/pesquisar?permissao=VETERINARIO',
+        valorAtributo=*{idVeterinario},
+        valorAtributoTexto=*{nomeVeterinario},
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputData(
+        textoLabel='Data',
+        nomeAtributo='data',
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputHora(
+        textoLabel='Hora',
+        nomeAtributo='hora',
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputTexto(
+        textoLabel='Motivo da consulta',
+        nomeAtributo='motivo',
+        isValidado=true)}">
+    </div>
+
+</th:block>

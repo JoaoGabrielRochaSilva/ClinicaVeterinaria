@@ -20,6 +20,7 @@ import com.example.trabalho.clinicaveterinaria.common.enums.Status;
 import com.example.trabalho.clinicaveterinaria.prontuario.ProntuarioService;
 import com.example.trabalho.clinicaveterinaria.usuario.Usuario;
 import com.example.trabalho.clinicaveterinaria.usuario.UsuarioService;
+import com.example.trabalho.clinicaveterinaria.agendamento.AgendamentoRepository;
 
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -32,7 +33,7 @@ public class AnimalService {
     private final AnimalRepository animalRepository;
     private final UsuarioService usuarioService;
     private final ProntuarioService prontuarioService;
-
+    private final AgendamentoRepository agendamentoRepository;
     private AnimalResponse toResponse(Animal animal) {
         return new AnimalResponse(
             animal.getId(),
@@ -46,12 +47,22 @@ public class AnimalService {
         );
     }
 
-    private Animal buscarAtivo(Long id) {
+    @Transactional(readOnly = true)
+    public Animal buscarAtivo(Long id) {
         return animalRepository.findByIdAndStatus(id, Status.ATIVO)
             .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND,
                 "Animal não encontrado"
             ));
+    }
+
+    @Transactional(readOnly = true)
+    public List<AnimalResponse> buscarPeloNome(String nome) {
+        return animalRepository
+            .findTop10ByNomeContainingIgnoreCaseAndStatusOrderByNomeAsc(nome.trim(), Status.ATIVO)
+            .stream()
+            .map(this::toResponse)
+            .toList();
     }
 
     @Transactional(readOnly = true)
@@ -214,7 +225,9 @@ public class AnimalService {
         Animal animal = buscarAtivo(id);
 
         animal.setStatus(Status.INATIVO);
-
         animalRepository.save(animal);
+
+        //inativa os agendamentos do animal e as consultas dele
+        agendamentoRepository.inativarDoAnimal(id);
     }
 }

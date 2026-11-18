@@ -16,6 +16,7 @@ import com.example.trabalho.clinicaveterinaria.common.enums.Status;
 import com.example.trabalho.clinicaveterinaria.usuario.dto.UsuarioCreateRequest;
 import com.example.trabalho.clinicaveterinaria.usuario.dto.UsuarioResponse;
 import com.example.trabalho.clinicaveterinaria.usuario.dto.UsuarioSearchRequest;
+import com.example.trabalho.clinicaveterinaria.agendamento.AgendamentoRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -24,6 +25,7 @@ import lombok.AllArgsConstructor;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final AgendamentoRepository agendamentoRepository;
 
     @Transactional
     public Usuario salvar(UsuarioCreateRequest request) {
@@ -133,6 +135,10 @@ public class UsuarioService {
 
         usuario.setStatus(Status.INATIVO);
         usuarioRepository.save(usuario);
+
+        if (usuario.getPermissao() == Permissao.VETERINARIO) {
+            agendamentoRepository.inativarDoVeterinario(id);
+        }
     }
 }
 

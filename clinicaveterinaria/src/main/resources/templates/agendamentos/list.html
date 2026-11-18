@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layoutpadrao}">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Agendamentos</title>
+</head>
+
+<body>
+    <main layout:fragment="conteudo"
+          th:fragment="conteudo"
+          id="main"
+          class="flex flex-col align-middle justify-center w-full m-10">
+
+        <h3 class="text-xl font-bold mb-4">Agendamentos</h3>
+
+        <h3 th:if="${not #strings.isEmpty(mensagem)}"
+            th:text="${mensagem}"
+            class="text-2xl md:text-4xl text-center">
+            Texto
+        </h3>
+
+        <form th:hx-get="@{/agendamentos}"
+              th:object="${agendamentoSearchRequest}"
+              class="w-1/2 mt-6 ms-5">
+
+            <div th:replace="~{components/forms :: inputBuscavel(
+                textoLabel='Animal',
+                nomeAtributo='idAnimal',
+                nomeAtributoTexto='nomeAnimal',
+                nomeAtributoBusca='termoBusca',
+                placeholderBusca='Buscar animal pelo nome...',
+                urlBusca='/animais/pesquisar',
+                valorAtributo=*{idAnimal},
+                valorAtributoTexto=*{nomeAnimal},
+                isValidado=false)}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputBuscavel(
+                textoLabel='Veterinário',
+                nomeAtributo='idVeterinario',
+                nomeAtributoTexto='nomeVeterinario',
+                nomeAtributoBusca='termoBusca',
+                placeholderBusca='Buscar veterinário pelo nome...',
+                urlBusca='/usuarios/pesquisar?permissao=VETERINARIO',
+                valorAtributo=*{idVeterinario},
+                valorAtributoTexto=*{nomeVeterinario},
+                isValidado=false)}">
+            </div>
+
+            <div th:replace="~{components/forms :: selectNormal(
+                textoLabel='Situação',
+                nomeAtributo='statusAgendamento',
+                listaOpcoes=${situacoes},
+                textoPlaceholder='Todas as situações',
+                valorAtributo=*{statusAgendamento})}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputData(
+                textoLabel='Data a partir de',
+                nomeAtributo='dataInicio',
+                valorAtributo=*{dataInicio},
+                isValidado=false)}">
+            </div>
+
+            <div th:replace="~{components/forms :: inputData(
+                textoLabel='Data até',
+                nomeAtributo='dataFim',
+                valorAtributo=*{dataFim},
+                isValidado=false)}">
+            </div>
+
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                Pesquisar
+            </button>
+        </form>
+
+        <table class="table-auto border-collapse border border-gray-400 w-full mt-4">
+            <thead class="bg-gray-200">
+                <tr class="border border-gray-400">
+                    <th:block th:replace="~{components/paginacao :: coluna(${pagina}, 'id', 'Código', '')}"></th:block>
+                    <th:block th:replace="~{components/paginacao :: coluna(${pagina}, 'dataHora', 'Data e hora', '')}"></th:block>
+                    <th>Animal</th>
+                    <th>Veterinário</th>
+                    <th>Motivo</th>
+                    <th>Situação</th>
+                    <th>Remarcar</th>
+                    <th>Cancelar</th>
+                </tr>
+            </thead>
+
+            <tbody class="border border-gray-400">
+
+                <tr th:each="agendamento : ${pagina.conteudo}"
+                    class="border border-gray-400 text-center">
+
+                    <td th:text="${agendamento.id}"></td>
+                    <td th:text="${#temporals.format(agendamento.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${agendamento.nomeAnimal}"></td>
+                    <td th:text="${agendamento.nomeVeterinario}"></td>
+                    <td th:text="${agendamento.motivo}"></td>
+                    <td th:text="${agendamento.statusAgendamento}"></td>
+
+                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                        <a th:if="${agendamento.statusAgendamento.name() == 'PENDENTE'}"
+                           th:hx-get="@{/agendamentos/{id}/remarcar(id=${agendamento.id})}"
+                           class="cursor-pointer text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-hidden focus:underline">
+                            Remarcar
+                        </a>
+                    </td>
+
+                    <td>
+                        <button th:if="${agendamento.statusAgendamento.name() == 'PENDENTE'}"
+                                th:hx-confirm="${'Você vai cancelar o agendamento do animal ' + agendamento.nomeAnimal + '!'}"
+                                data-confirm-text="Cancelar agendamento"
+                                data-cancel-text="Voltar"
+                                type="button"
+                                th:hx-put="@{/agendamentos/{id}/cancelar(id=${agendamento.id})}"
+                                class="text-red-600 hover:text-red-500 decoration-2 hover:underline focus:outline-hidden focus:underline cursor-pointer bg-transparent border-0 p-0 inline">
+                            Cancelar
+                        </button>
+                    </td>
+                </tr>
+
+                <tr th:if="${pagina.vazia}">
+                    <td colspan="8" class="text-center p-4">
+                        Nenhum agendamento encontrado.
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div th:replace="~{components/paginacao :: paginacao(${pagina})}"></div>
+
+    </main>
+</body>
+
+</html>
