@@ -40,10 +40,9 @@ public class AgendamentoService {
     private static final LocalTime ULTIMO_INICIO = LocalTime.of(18, 0);
     private static final long DURACAO_MINUTOS = 30;
 
-    private static final String SO_PENDENTE_CANCELAR =
-        "Somente agendamentos pendentes podem ser cancelados";
-    private static final String SO_PENDENTE_REMARCAR =
-        "Somente agendamentos pendentes podem ser remarcados";
+    private static final String SO_PENDENTE_CANCELAR = "Somente agendamentos pendentes podem ser cancelados";
+    private static final String SO_PENDENTE_REMARCAR = "Somente agendamentos pendentes podem ser remarcados";
+    private static final String SO_PENDENTE_ATENDER = "Somente agendamentos pendentes podem ser atendidos";
 
     private final AgendamentoRepository agendamentoRepository;
     private final AnimalService animalService;
@@ -203,6 +202,25 @@ public class AgendamentoService {
         Agendamento agendamento = buscarAtivo(id);
         exigirPendente(agendamento, SO_PENDENTE_REMARCAR);
         return toResponse(agendamento);
+    }
+
+    // Usado pela tela de atendimento, só PENDENTE pode ser atendido
+    @Transactional(readOnly = true)
+    public AgendamentoResponse buscarParaAtendimento(Long id) {
+        Agendamento agendamento = buscarAtivo(id);
+        exigirPendente(agendamento, SO_PENDENTE_ATENDER);
+        return toResponse(agendamento);
+    }
+
+    // Passa o agendamento para REALIZADO. Chamado pelo ConsultaService dentro da
+    // transação do atendimento, se algo falhar depois, o status também é desfeito.
+    @Transactional
+    public Agendamento marcarRealizado(Long id) {
+        Agendamento agendamento = buscarAtivo(id);
+        exigirPendente(agendamento, SO_PENDENTE_ATENDER);
+
+        agendamento.setStatusAgendamento(StatusAgendamento.REALIZADO);
+        return agendamentoRepository.save(agendamento);
     }
 
     // Altera somente data/hora do MESMO registro (o id é preservado)

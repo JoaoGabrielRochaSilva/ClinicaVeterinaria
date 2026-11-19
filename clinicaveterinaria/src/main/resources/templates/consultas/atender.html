@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layoutpadrao}">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Registrar Atendimento</title>
+</head>
+
+<body>
+    <main layout:fragment="conteudo"
+          th:fragment="formulario"
+          id="main"
+          class="flex flex-col align-middle justify-center w-full m-10">
+
+        <h3 class="text-xl font-bold mb-4">Registrar Atendimento</h3>
+
+        <form th:hx-post="@{/consultas}"
+              class="flex flex-col gap-4"
+              th:object="${consultaCreateRequest}">
+
+            <input type="hidden" th:field="*{idAgendamento}" />
+
+            <div th:replace="~{components/forms :: campoEstatico(
+                textoLabel='Animal',
+                textoExibicao=${agendamento.nomeAnimal})}">
+            </div>
+
+            <div th:replace="~{components/forms :: campoEstatico(
+                textoLabel='Veterinário',
+                textoExibicao=${agendamento.nomeVeterinario})}">
+            </div>
+
+            <div th:replace="~{components/forms :: campoEstatico(
+                textoLabel='Motivo do agendamento',
+                textoExibicao=${agendamento.motivo})}">
+            </div>
+
+            <div th:replace="~{components/forms :: campoEstatico(
+                textoLabel='Data e hora agendadas',
+                textoExibicao=${#temporals.format(agendamento.dataHora, 'dd/MM/yyyy HH:mm')})}">
+            </div>
+
+            <div th:replace="~{consultas/fragments/consulta_inputs :: campos}"></div>
+
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Registrar atendimento
+            </button>
+        </form>
+    </main>
+</body>
+
+</html>
