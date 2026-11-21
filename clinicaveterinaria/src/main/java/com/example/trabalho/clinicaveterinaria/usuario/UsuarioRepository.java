@@ -17,4 +17,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     public List<Usuario> findTop10ByNomeContainingIgnoreCaseAndPermissaoAndStatusOrderByNomeAsc(String nome, Permissao permissao, Status status);
     
     public boolean existsByEmail(String email);
+
+    public boolean existsByEmailAndIdNot(String email, Long id);
 } 

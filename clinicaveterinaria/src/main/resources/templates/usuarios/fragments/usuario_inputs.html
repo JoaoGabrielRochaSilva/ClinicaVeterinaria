@@ -29,3 +29,19 @@
     </div>
 
 </th:block>
+
+<th:block th:fragment="camposEdicao">
+
+    <div th:replace="~{components/forms :: inputTexto(
+        textoLabel='Nome',
+        nomeAtributo='nome',
+        isValidado=true)}">
+    </div>
+
+    <div th:replace="~{components/forms :: inputEmail(
+        textoLabel='E-mail',
+        nomeAtributo='email',
+        isValidado=true)}">
+    </div>
+
+</th:block>

@@ -12,18 +12,23 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.trabalho.clinicaveterinaria.common.enums.Permissao;
+import com.example.trabalho.clinicaveterinaria.common.exception.RegraDeNegocioException;
 import com.example.trabalho.clinicaveterinaria.core.web.notification.NotificacaoSweetAlert2;
 import com.example.trabalho.clinicaveterinaria.core.web.notification.TipoNotificacaoSweetAlert2;
 import com.example.trabalho.clinicaveterinaria.core.web.pagination.PageWrapper;
 import com.example.trabalho.clinicaveterinaria.usuario.dto.UsuarioCreateRequest;
 import com.example.trabalho.clinicaveterinaria.usuario.dto.UsuarioResponse;
 import com.example.trabalho.clinicaveterinaria.usuario.dto.UsuarioSearchRequest;
+import com.example.trabalho.clinicaveterinaria.usuario.dto.UsuarioUpdateRequest;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxRequest;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,7 +53,7 @@ public class UsuarioController {
 
                 Page<UsuarioResponse> pagina = usuarioService.pesquisar(form, pageable);
 
-                log.info("Usuários pesquisados: {}", pagina.getContent());
+                log.info("Usuários encontrados: {}", pagina.getNumberOfElements());
 
                 PageWrapper<UsuarioResponse> paginaWrapper = new PageWrapper<>(pagina, request);
 
@@ -115,17 +120,84 @@ public class UsuarioController {
 
                 usuarioService.salvar(request);
 
+                notificarSucesso(atributos, "Usuário cadastrado com sucesso!");
+
+                return voltarParaLista(htmxRequest);
+        }
+
+        @GetMapping("/usuarios/{id}/editar")
+        public String abrirFormularioEdicao(
+                        @PathVariable Long id,
+                        Model model,
+                        HtmxRequest htmxRequest) {
+
+                UsuarioResponse usuario = usuarioService.buscarPorId(id);
+
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("usuarioUpdateRequest",
+                                new UsuarioUpdateRequest(usuario.nome(), usuario.email()));
+
+                return htmxRequest.isHtmxRequest()
+                                ? "usuarios/edit :: formulario"
+                                : "usuarios/edit";
+        }
+
+        @PutMapping("/usuarios/{id}")
+        public String atualizar(
+                        @PathVariable Long id,
+                        @Valid UsuarioUpdateRequest request,
+                        BindingResult resultado,
+                        Model model,
+                        RedirectAttributes atributos,
+                        HtmxRequest htmxRequest) {
+
+                if (resultado.hasErrors()) {
+                        log.info("O usuário recebido para atualização não é válido: {}", resultado.getAllErrors());
+                } else {
+                        try {
+                                usuarioService.atualizar(id, request);
+
+                                notificarSucesso(atributos, "Usuário atualizado com sucesso!");
+
+                                return voltarParaLista(htmxRequest);
+                        } catch (RegraDeNegocioException e) {
+                                log.info("Regra de negócio violada ao atualizar usuário: {}", e.getMessage());
+                                resultado.rejectValue(e.getCampo(), "regraDeNegocio", e.getMessage());
+                        }
+                }
+
+                model.addAttribute("usuario", usuarioService.buscarPorId(id));
+
+                return htmxRequest.isHtmxRequest()
+                                ? "usuarios/edit :: formulario"
+                                : "usuarios/edit";
+        }
+
+        @DeleteMapping("/usuarios/{id}")
+        public String remover(
+                        @PathVariable Long id,
+                        RedirectAttributes atributos,
+                        HtmxRequest htmxRequest) {
+
+                usuarioService.remover(id);
+
+                notificarSucesso(atributos, "Usuário removido com sucesso!");
+
+                return voltarParaLista(htmxRequest);
+        }
+
+        private void notificarSucesso(RedirectAttributes atributos, String mensagem) {
                 atributos.addFlashAttribute(
                                 "notificacaoSA2",
                                 new NotificacaoSweetAlert2(
-                                                "Usuário cadastrado com sucesso!",
+                                                mensagem,
                                                 TipoNotificacaoSweetAlert2.SUCCESS,
                                                 4000));
 
-                atributos.addFlashAttribute(
-                                "mensagem",
-                                "Usuário cadastrado com sucesso");
+                atributos.addFlashAttribute("mensagem", mensagem);
+        }
 
+        private String voltarParaLista(HtmxRequest htmxRequest) {
                 return htmxRequest.isHtmxRequest()
                                 ? "redirect:htmx:location:/usuarios"
                                 : "redirect:/usuarios";

@@ -526,14 +526,17 @@ class AppVacinacao {
 
     static _dispararSweetAlert(e) {
         e.preventDefault();
+        const origem = e.currentTarget;
+        const textoConfirmar = origem?.dataset.confirmText ?? AppVacinacao.CONFIG.texto.remover;
+        const textoCancelar = origem?.dataset.cancelText ?? AppVacinacao.CONFIG.texto.cancelar;
         const pergunta = e.detail.ctx?.confirm ?? e.detail.question;
         Swal.fire({
             title: AppVacinacao.CONFIG.texto.tituloConfirm,
             text: pergunta,
             icon: "warning",
             showCancelButton: true,
-            cancelButtonText: AppVacinacao.CONFIG.texto.cancelar,
-            confirmButtonText: AppVacinacao.CONFIG.texto.remover,
+            cancelButtonText: textoCancelar,
+            confirmButtonText: textoConfirmar,
             confirmButtonColor: "#3085d6",
         }).then((result) => {
             if (result.isConfirmed) {
